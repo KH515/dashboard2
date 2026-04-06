@@ -19,7 +19,8 @@ export default async function UserPage({ params }: { params: { id: string } }) {
   const token = cookieStore.get("accessToken")?.value
   if (!token) redirect("/login")
 
-  const user = await getUser(token, params.id)
+  const data = await getUser(token, params.id)
+  const user = data?.user
   if (!user) redirect("/admin/customers")
 
   return (
@@ -45,6 +46,9 @@ export default async function UserPage({ params }: { params: { id: string } }) {
           {[
             { label: "الدور", value: user.role },
             { label: "اليوزرنيم", value: user.username || "—" },
+            { label: "الجوال", value: user.phone || "—" },
+            { label: "الآيبان", value: user.iban || "—" },
+            { label: "الحالة", value: user.is_active ? "نشط" : "معطّل" },
             { label: "تاريخ التسجيل", value: user.created_at ? new Date(user.created_at).toLocaleDateString("ar-SA") : "—" },
           ].map(row => (
             <div key={row.label} style={{ display: "flex", justifyContent: "space-between", padding: "14px 16px", background: "#0a0a0a", borderBottom: "1px solid #111" }}>
