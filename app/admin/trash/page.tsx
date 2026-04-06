@@ -7,11 +7,19 @@ export const dynamic = "force-dynamic"
 
 async function getTrash(token: string) {
   try {
-    const res = await fetch("https://api.klafstore.com/api/admin/trash", {
-      headers: { "Authorization": `Bearer ${token}` },
-      cache: "no-store"
-    })
-    return await res.json()
+    const [usersRes, productsRes] = await Promise.all([
+      fetch("https://api.klafstore.com/api/users/trash", {
+        headers: { "Authorization": `Bearer ${token}` },
+        cache: "no-store"
+      }),
+      fetch("https://api.klafstore.com/api/products/trash", {
+        headers: { "Authorization": `Bearer ${token}` },
+        cache: "no-store"
+      }),
+    ])
+    const users = await usersRes.json()
+    const products = await productsRes.json()
+    return { users: users.users || [], products: products.products || [] }
   } catch { return { users: [], products: [] } }
 }
 
@@ -34,8 +42,6 @@ export default async function TrashPage() {
       </div>
 
       <div style={{ padding: "16px", maxWidth: "600px", margin: "0 auto" }}>
-
-        {/* المستخدمون المحذوفون */}
         {users.length > 0 && (
           <>
             <p style={{ color: "#555", fontSize: "12px", fontWeight: "700", marginBottom: "12px", marginTop: "8px" }}>المستخدمون ({users.length})</p>
@@ -56,7 +62,6 @@ export default async function TrashPage() {
           </>
         )}
 
-        {/* المنتجات المحذوفة */}
         {products.length > 0 && (
           <>
             <p style={{ color: "#555", fontSize: "12px", fontWeight: "700", marginBottom: "12px" }}>المنتجات ({products.length})</p>
