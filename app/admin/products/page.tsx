@@ -4,15 +4,24 @@ import Link from "next/link"
 
 export const dynamic = "force-dynamic"
 
-async function getProducts(token: string) {
+async function getCounts(token: string) {
   try {
-    const res = await fetch("https://api.klafstore.com/api/products?limit=100", {
-      headers: { "Authorization": `Bearer ${token}` },
-      cache: "no-store"
-    })
-    const data = await res.json()
-    return data.products || []
-  } catch { return [] }
+    const [productsRes, sellersRes] = await Promise.all([
+      fetch("https://api.klafstore.com/api/products?limit=100", {
+        headers: { "Authorization": `Bearer ${token}` },
+        cache: "no-store"
+      }),
+      fetch("https://api.klafstore.com/api/users/sellers-list", {
+        headers: { "Authorization": `Bearer ${token}` },
+        cache: "no-store"
+      }),
+    ])
+    const products = await productsRes.json()
+    const sellers = await sellersRes.json()
+    const allProducts = products.products || []
+    const klafCount = allProducts.filter((p: any) => !p.seller_id).length
+    return { klafCount, sellersCount: (sellers.sellers || []).length }
+  } catch { return { klafCount: 0, sellersCount: 0 } }
 }
 
 export default async function ProductsPage() {
@@ -20,13 +29,11 @@ export default async function ProductsPage() {
   const token = cookieStore.get("accessToken")?.value
   if (!token) redirect("/login")
 
-  const products = await getProducts(token)
-  const klafProducts = products.filter((p: any) => !p.seller_id)
-  const sellerProducts = products.filter((p: any) => p.seller_id)
+  const { klafCount, sellersCount } = await getCounts(token)
 
-  const tabs = [
-    { label: "منتجات كلاف", count: klafProducts.length, products: klafProducts },
-    { label: "منتجات البائعين", count: sellerProducts.length, products: sellerProducts },
+  const sections = [
+    { href: "/admin/products/klafstore", label: "منتجات كلاف", count: klafCount },
+    { href: "/admin/products/sellers", label: "منتجات البائعين", count: sellersCount },
   ]
 
   return (
@@ -34,37 +41,20 @@ export default async function ProductsPage() {
       <div style={{ padding: "16px 20px", borderBottom: "1px solid #111", display: "flex", justifyContent: "space-between", alignItems: "center", position: "sticky", top: 0, background: "#000", zIndex: 10 }}>
         <Link href="/admin" style={{ color: "#555", fontSize: "13px", textDecoration: "none" }}>← رجوع</Link>
         <span style={{ fontWeight: "700", fontSize: "16px" }}>المنتجات</span>
-        <Link href="/admin/products/new" style={{ fontSize: "12px", textDecoration: "none", background: "#fff", color: "#000", padding: "6px 14px", borderRadius: "8px", fontWeight: "700" }}>+ إضافة</Link>
+        <span />
       </div>
 
-      <div style={{ padding: "16px", maxWidth: "700px", margin: "0 auto" }}>
-        {tabs.map(tab => (
-          <div key={tab.label} style={{ marginBottom: "32px" }}>
-            <p style={{ fontSize: "11px", fontWeight: "700", color: "#555", marginBottom: "12px" }}>{tab.label} ({tab.count})</p>
-            {tab.products.length === 0 ? (
-              <p style={{ color: "#333", fontSize: "13px", padding: "16px 0" }}>لا يوجد منتجات</p>
-            ) : (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "10px" }}>
-                {tab.products.map((product: any) => (
-                  <Link key={product.id} href={`/admin/products/${product.id}`} style={{ textDecoration: "none" }}>
-                    <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "14px", overflow: "hidden" }}>
-                      <div style={{ height: "140px", background: "#1a1a1a", overflow: "hidden" }}>
-                        {product.image && <img src={product.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
-                      </div>
-                      <div style={{ padding: "12px" }}>
-                        <p style={{ fontWeight: "700", fontSize: "13px", margin: 0, marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{product.name}</p>
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                          <span style={{ fontSize: "13px", fontWeight: "800" }}>{product.price} ر.س</span>
-                          <span style={{ fontSize: "11px", color: "#555" }}>مخزون: {product.stock}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+      <div style={{ padding: "24px 16px", maxWidth: "500px", margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+          {sections.map(section => (
+            <Link key={section.href} href={section.href} style={{ textDecoration: "none" }}>
+              <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "16px", padding: "20px 16px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span style={{ fontSize: "24px", fontWeight: "800", color: "#fff" }}>{section.count}</span>
+                <span style={{ fontSize: "13px", fontWeight: "600", color: "#555" }}>{section.label}</span>
               </div>
-            )}
-          </div>
-        ))}
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   )
