@@ -5,12 +5,9 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const token = request.cookies.get("accessToken")?.value
 
-  // صفحات عامة
-  if (pathname === "/login" || pathname === "/unauthorized") {
-    return NextResponse.next()
-  }
+  const publicPaths = ["/", "/login", "/seller/login", "/affiliate/login", "/unauthorized"]
+  if (publicPaths.includes(pathname)) return NextResponse.next()
 
-  // لو ما فيه token
   if (!token) {
     return NextResponse.redirect(new URL("/login", request.url))
   }
