@@ -17,10 +17,10 @@ export async function POST(request: NextRequest) {
   }
   
   const code = Math.floor(100000 + Math.random() * 900000).toString()
-
-  await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/set/${encodeURIComponent(data.user.email)}/${code}?ex=300`, {
-    headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
-  })
+await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/set/${encodeURIComponent(data.user.email)}/${code}/ex/300`, {
+  method: "POST",
+  headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
+})
 
   const emailRes = await fetch("https://api.resend.com/emails", {
     method: "POST",
