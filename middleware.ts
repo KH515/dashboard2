@@ -9,6 +9,8 @@ export function middleware(request: NextRequest) {
   if (publicPaths.includes(pathname)) return NextResponse.next()
 
   if (!token) {
+    if (pathname.startsWith("/seller")) return NextResponse.redirect(new URL("/seller/login", request.url))
+    if (pathname.startsWith("/affiliate")) return NextResponse.redirect(new URL("/affiliate/login", request.url))
     return NextResponse.redirect(new URL("/login", request.url))
   }
 
