@@ -58,6 +58,8 @@ export default function NewUserPage() {
     boxSizing: "border-box" as const,
   }
 
+  const needsPayment = form.role === "seller" || form.role === "affiliate"
+
   return (
     <div style={{ minHeight: "100vh", background: "#000", color: "#fff", fontFamily: "Cairo, system-ui, sans-serif", direction: "rtl" }}>
       <div style={{ padding: "16px 20px", borderBottom: "1px solid #111", display: "flex", justifyContent: "space-between", alignItems: "center", position: "sticky", top: 0, background: "#000", zIndex: 10 }}>
@@ -97,15 +99,19 @@ export default function NewUserPage() {
             </select>
           </div>
 
-          <div style={{ marginBottom: "12px" }}>
-            <label style={{ display: "block", fontSize: "12px", color: "#555", marginBottom: "6px", fontWeight: "700" }}>الجوال</label>
-            <input type="tel" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} placeholder="05xxxxxxxx" style={inp} />
-          </div>
+          {needsPayment && (
+            <>
+              <div style={{ marginBottom: "12px" }}>
+                <label style={{ display: "block", fontSize: "12px", color: "#555", marginBottom: "6px", fontWeight: "700" }}>الجوال</label>
+                <input type="tel" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} placeholder="05xxxxxxxx" style={inp} />
+              </div>
 
-          <div style={{ marginBottom: "24px" }}>
-            <label style={{ display: "block", fontSize: "12px", color: "#555", marginBottom: "6px", fontWeight: "700" }}>الآيبان</label>
-            <input type="text" value={form.iban} onChange={e => setForm({...form, iban: e.target.value})} placeholder="SA..." style={inp} />
-          </div>
+              <div style={{ marginBottom: "24px" }}>
+                <label style={{ display: "block", fontSize: "12px", color: "#555", marginBottom: "6px", fontWeight: "700" }}>الآيبان</label>
+                <input type="text" value={form.iban} onChange={e => setForm({...form, iban: e.target.value})} placeholder="SA..." style={inp} />
+              </div>
+            </>
+          )}
 
           {error && <div style={{ color: "#f87171", fontSize: "13px", marginBottom: "16px", padding: "12px", background: "rgba(239,68,68,0.08)", borderRadius: "10px" }}>⚠️ {error}</div>}
 
