@@ -26,7 +26,7 @@ export default function NewAdPage() {
     try {
       const fd = new FormData()
       fd.append("file", file)
-      const res = await fetch("https://api.klafstore.com/api/upload", {
+      const res = await fetch("/api/admin/upload", {
         method: "POST",
         body: fd,
       })
@@ -81,13 +81,9 @@ export default function NewAdPage() {
       </div>
 
       <div style={{ padding: "24px 16px", maxWidth: "500px", margin: "0 auto" }}>
-
         {preview ? (
-          /* معاينة كاملة */
           <div>
             <p style={{ color: "#555", fontSize: "11px", fontWeight: "700", marginBottom: "16px" }}>معاينة — كيف يراه المستخدم</p>
-
-            {/* شكل البانر في لوحة التحكم */}
             <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "16px", overflow: "hidden", marginBottom: "16px" }}>
               {form.image && (
                 <div style={{ height: "200px", overflow: "hidden", background: "#0a0a0a" }}>
@@ -111,7 +107,6 @@ export default function NewAdPage() {
                 )}
               </div>
             </div>
-
             <button type="button" onClick={() => setPreview(false)}
               style={{ width: "100%", marginBottom: "10px", padding: "14px", background: "transparent", border: "1px solid #222", color: "#fff", borderRadius: "12px", fontSize: "14px", fontWeight: "700", cursor: "pointer", fontFamily: "Cairo, system-ui, sans-serif" }}>
               ← رجوع للتعديل
@@ -122,7 +117,6 @@ export default function NewAdPage() {
             </button>
           </div>
         ) : (
-          /* فورم التعديل */
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: "12px" }}>
               <label style={{ display: "block", fontSize: "12px", color: "#555", marginBottom: "6px", fontWeight: "700" }}>العنوان *</label>
@@ -136,7 +130,6 @@ export default function NewAdPage() {
                 style={{ ...inp, resize: "vertical" as const }} />
             </div>
 
-            {/* رفع صورة أو فيديو */}
             <div style={{ marginBottom: "12px" }}>
               <label style={{ display: "block", fontSize: "12px", color: "#555", marginBottom: "6px", fontWeight: "700" }}>صورة أو فيديو (بانر)</label>
               <input ref={fileRef} type="file" accept="image/*,video/*" onChange={handleUpload} style={{ display: "none" }} />
@@ -144,7 +137,6 @@ export default function NewAdPage() {
                 style={{ width: "100%", padding: "13px 16px", background: "#111", border: "1px dashed #333", borderRadius: "12px", color: uploading ? "#555" : "#fff", fontSize: "14px", cursor: "pointer", fontFamily: "Cairo, system-ui, sans-serif", textAlign: "center" }}>
                 {uploading ? "جاري الرفع..." : form.image ? "تغيير الملف" : "اضغط لرفع صورة أو فيديو"}
               </button>
-
               {form.image && (
                 <div style={{ marginTop: "8px", borderRadius: "10px", overflow: "hidden", border: "1px solid #222", position: "relative" }}>
                   {isVideo ? (
