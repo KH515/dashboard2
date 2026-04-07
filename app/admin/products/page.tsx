@@ -9,13 +9,13 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
-  
-useEffect(() => {
-  fetch("/api/admin/products-list")
-    .then(r => r.json())
-    .then(data => { setProducts(data.products || []); setLoading(false) })
-    .catch(() => setLoading(false))
-}, [])
+
+  useEffect(() => {
+    fetch("/api/admin/products-list")
+      .then(r => r.json())
+      .then(data => { setProducts(data.products || []); setLoading(false) })
+      .catch(() => setLoading(false))
+  }, [])
 
   const filtered = products.filter(p =>
     p.name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -31,21 +31,15 @@ useEffect(() => {
       </div>
 
       <div style={{ padding: "16px", maxWidth: "700px", margin: "0 auto" }}>
-        {/* بحث */}
-        <input
-          type="text"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
+        <input type="text" value={search} onChange={e => setSearch(e.target.value)}
           placeholder="ابحث عن منتج..."
-          style={{ width: "100%", padding: "13px 16px", background: "#111", border: "1px solid #222", borderRadius: "12px", color: "white", fontSize: "14px", outline: "none", textAlign: "right", fontFamily: "Cairo, system-ui, sans-serif", boxSizing: "border-box", marginBottom: "16px" }}
-        />
+          style={{ width: "100%", padding: "13px 16px", background: "#111", border: "1px solid #222", borderRadius: "12px", color: "white", fontSize: "14px", outline: "none", textAlign: "right", fontFamily: "Cairo, system-ui, sans-serif", boxSizing: "border-box" as const, marginBottom: "16px" }} />
 
-        {/* إحصائيات */}
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px", marginBottom: "20px" }}>
           {[
-            { label: "الكل", count: products.length, filter: "" },
-            { label: "كلاف", count: products.filter(p => !p.seller_id).length, filter: "klaf" },
-            { label: "البائعون", count: products.filter(p => p.seller_id).length, filter: "sellers" },
+            { label: "الكل", count: products.length },
+            { label: "كلاف", count: products.filter(p => !p.seller_id).length },
+            { label: "البائعون", count: products.filter(p => p.seller_id).length },
           ].map(s => (
             <div key={s.label} style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "12px", padding: "12px", textAlign: "center" }}>
               <p style={{ fontWeight: "800", fontSize: "20px", margin: 0 }}>{s.count}</p>
@@ -54,28 +48,35 @@ useEffect(() => {
           ))}
         </div>
 
-        {/* المنتجات */}
         {loading ? (
           <p style={{ color: "#555", textAlign: "center", padding: "40px 0" }}>جاري التحميل...</p>
         ) : filtered.length === 0 ? (
           <p style={{ color: "#555", textAlign: "center", padding: "40px 0" }}>لا يوجد منتجات</p>
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "10px" }}>
-            {filtered.map((product: any) => (
-              <div key={product.id} onClick={() => router.push(`/admin/products/${product.id}`)}
-                style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "14px", overflow: "hidden", cursor: "pointer" }}>
-                <div style={{ height: "120px", background: "#1a1a1a", overflow: "hidden" }}>
-                  {product.image && <img src={product.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
-                </div>
-                <div style={{ padding: "10px" }}>
-                  <p style={{ fontWeight: "700", fontSize: "12px", margin: 0, marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{product.name}</p>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span style={{ fontSize: "12px", fontWeight: "800" }}>{product.price} ر.س</span>
-                    <span style={{ fontSize: "10px", color: product.stock > 0 ? "#4ade80" : "#f87171" }}>{product.stock > 0 ? product.stock : "نفذ"}</span>
+            {filtered.map((product: any) => {
+              const inactive = !product.is_active
+              return (
+                <div key={product.id} onClick={() => router.push(`/admin/products/${product.id}`)}
+                  style={{ background: "#111", border: `1px solid ${inactive ? "#222" : "#1a1a1a"}`, borderRadius: "14px", overflow: "hidden", cursor: "pointer", position: "relative", filter: inactive ? "grayscale(1)" : "none", opacity: inactive ? 0.6 : 1 }}>
+                  {inactive && (
+                    <div style={{ position: "absolute", top: "8px", right: "8px", background: "#000", border: "1px solid #333", color: "#555", padding: "2px 8px", borderRadius: "20px", fontSize: "10px", fontWeight: "700", zIndex: 1 }}>
+                      معطّل
+                    </div>
+                  )}
+                  <div style={{ height: "120px", background: "#1a1a1a", overflow: "hidden" }}>
+                    {product.image && <img src={product.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+                  </div>
+                  <div style={{ padding: "10px" }}>
+                    <p style={{ fontWeight: "700", fontSize: "12px", margin: 0, marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{product.name}</p>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ fontSize: "12px", fontWeight: "800" }}>{product.price} ر.س</span>
+                      <span style={{ fontSize: "10px", color: product.stock > 0 ? "#4ade80" : "#f87171" }}>{product.stock > 0 ? product.stock : "نفذ"}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>
