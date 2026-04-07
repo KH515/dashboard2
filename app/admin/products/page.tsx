@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic"
 
 async function getCounts(token: string) {
   try {
-    const [productsRes, sellersRes] = await Promise.all([
+    const [productsRes, sellersRes, affiliateRes] = await Promise.all([
       fetch("https://api.klafstore.com/api/products?limit=100", {
         headers: { "Authorization": `Bearer ${token}` },
         cache: "no-store"
@@ -15,13 +15,20 @@ async function getCounts(token: string) {
         headers: { "Authorization": `Bearer ${token}` },
         cache: "no-store"
       }),
+      fetch("https://api.klafstore.com/api/users", {
+        headers: { "Authorization": `Bearer ${token}` },
+        cache: "no-store"
+      }),
     ])
     const products = await productsRes.json()
     const sellers = await sellersRes.json()
+    const users = await affiliateRes.json()
     const allProducts = products.products || []
+    const allUsers = users.users || []
     const klafCount = allProducts.filter((p: any) => !p.seller_id).length
-    return { klafCount, sellersCount: (sellers.sellers || []).length }
-  } catch { return { klafCount: 0, sellersCount: 0 } }
+    const affiliateCount = allUsers.filter((u: any) => u.role === "affiliate").length
+    return { klafCount, sellersCount: (sellers.sellers || []).length, affiliateCount }
+  } catch { return { klafCount: 0, sellersCount: 0, affiliateCount: 0 } }
 }
 
 export default async function ProductsPage() {
@@ -29,11 +36,12 @@ export default async function ProductsPage() {
   const token = cookieStore.get("accessToken")?.value
   if (!token) redirect("/login")
 
-  const { klafCount, sellersCount } = await getCounts(token)
+  const { klafCount, sellersCount, affiliateCount } = await getCounts(token)
 
   const sections = [
     { href: "/admin/products/users/klaf", label: "منتجات كلاف", count: klafCount },
     { href: "/admin/products/sellers", label: "منتجات البائعين", count: sellersCount },
+    { href: "/admin/products/affiliate", label: "منتجات العمولة", count: affiliateCount },
   ]
 
   return (
@@ -44,8 +52,8 @@ export default async function ProductsPage() {
         <span />
       </div>
 
-      <div style={{ padding: "24px 16px", maxWidth: "500px", margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+      <div style={{ padding: "24px 16px", maxWidth: "600px", margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px" }}>
           {sections.map(section => (
             <Link key={section.href} href={section.href} style={{ textDecoration: "none" }}>
               <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "16px", padding: "20px 16px", display: "flex", flexDirection: "column", gap: "8px" }}>
