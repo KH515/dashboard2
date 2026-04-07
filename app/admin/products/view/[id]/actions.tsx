@@ -15,7 +15,7 @@ export function ProductActions({ productId, isActive }: { productId: number, isA
         await fetch(`/api/admin/products/${productId}/toggle`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ is_active: !isActive })
+          body: JSON.stringify({ is_active: isActive ? 0 : 1 })
         })
         router.refresh()
       } else if (type === "delete") {
@@ -28,7 +28,7 @@ export function ProductActions({ productId, isActive }: { productId: number, isA
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-      <button onClick={() => router.push(`/admin/products/${productId}/edit`)}
+      <button onClick={() => router.push(`/admin/products/view/${productId}/edit`)}
         style={{ width: "100%", padding: "14px", background: "#111", border: "1px solid #222", color: "#fff", borderRadius: "12px", fontSize: "14px", fontWeight: "700", cursor: "pointer", fontFamily: "Cairo, system-ui, sans-serif" }}>
         تعديل المنتج
       </button>

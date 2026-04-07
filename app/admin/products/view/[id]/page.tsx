@@ -5,9 +5,9 @@ import { ProductActions } from "./actions"
 
 export const dynamic = "force-dynamic"
 
-async function getProduct(token: string, productId: string) {
+async function getProduct(token: string, id: string) {
   try {
-    const res = await fetch(`https://api.klafstore.com/api/products/${productId}`, {
+    const res = await fetch(`https://api.klafstore.com/api/products/${id}`, {
       headers: { "Authorization": `Bearer ${token}` },
       cache: "no-store"
     })
@@ -15,13 +15,13 @@ async function getProduct(token: string, productId: string) {
   } catch { return null }
 }
 
-export default async function ProductPage({ params }: { params: Promise<{ productId: string }> }) {
-  const { productId } = await params
+export default async function ProductPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const cookieStore = await cookies()
   const token = cookieStore.get("accessToken")?.value
   if (!token) redirect("/login")
 
-  const data = await getProduct(token, productId)
+  const data = await getProduct(token, id)
   const product = data?.product
   if (!product) redirect("/admin/products")
 
@@ -30,7 +30,7 @@ export default async function ProductPage({ params }: { params: Promise<{ produc
       <div style={{ padding: "16px 20px", borderBottom: "1px solid #111", display: "flex", justifyContent: "space-between", alignItems: "center", position: "sticky", top: 0, background: "#000", zIndex: 10 }}>
         <Link href="/admin/products" style={{ color: "#555", fontSize: "13px", textDecoration: "none" }}>← رجوع</Link>
         <span style={{ fontWeight: "700", fontSize: "16px" }}>تفاصيل المنتج</span>
-        <a href={`https://klafstore.com/product/${productId}`} target="_blank" rel="noopener noreferrer"
+        <a href={`https://klafstore.com/product/${id}`} target="_blank" rel="noopener noreferrer"
           style={{ color: "#555", fontSize: "13px", textDecoration: "none" }}>زيارة ←</a>
       </div>
 
