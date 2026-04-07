@@ -9,13 +9,13 @@ export default function ProductsPage() {
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState("")
-
-  useEffect(() => {
-    fetch("https://api.klafstore.com/api/products?limit=200")
-      .then(r => r.json())
-      .then(data => { setProducts(data.products || []); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [])
+  
+useEffect(() => {
+  fetch("/api/admin/products-list")
+    .then(r => r.json())
+    .then(data => { setProducts(data.products || []); setLoading(false) })
+    .catch(() => setLoading(false))
+}, [])
 
   const filtered = products.filter(p =>
     p.name?.toLowerCase().includes(search.toLowerCase()) ||
