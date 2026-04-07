@@ -52,7 +52,7 @@ export default async function UserPage({ params }: { params: { id: string } }) {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: "#111", borderRadius: "14px", overflow: "hidden" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: "#111", borderRadius: "14px", overflow: "hidden", marginBottom: "20px" }}>
           {rows.map(row => (
             <div key={row.label} style={{ display: "flex", justifyContent: "space-between", padding: "14px 16px", background: "#0a0a0a", borderBottom: "1px solid #111" }}>
               <span style={{ color: "#555", fontSize: "13px" }}>{row.label}</span>
@@ -60,6 +60,13 @@ export default async function UserPage({ params }: { params: { id: string } }) {
             </div>
           ))}
         </div>
+
+        {(user.role === "seller" || user.role === "affiliate") && user.username && (
+          <a href={`https://klafstore.com/seller/${user.username}`} target="_blank" rel="noopener noreferrer"
+            style={{ display: "block", width: "100%", padding: "14px", background: "#111", border: "1px solid #222", color: "#fff", borderRadius: "12px", fontSize: "14px", fontWeight: "700", cursor: "pointer", fontFamily: "Cairo, system-ui, sans-serif", textAlign: "center", textDecoration: "none", marginBottom: "10px", boxSizing: "border-box" }}>
+            عرض في المتجر ←
+          </a>
+        )}
 
         <UserActions userId={user.id} isActive={user.is_active} role={user.role} />
       </div>
