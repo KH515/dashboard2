@@ -1,84 +1,62 @@
-"use client"
-
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { cookies } from "next/headers"
+import { redirect } from "next/navigation"
 import Link from "next/link"
+import { ProductActions } from "./actions"
 
-export default function ProductsPage() {
-  const router = useRouter()
-  const [products, setProducts] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [search, setSearch] = useState("")
+export const dynamic = "force-dynamic"
 
-  useEffect(() => {
-    fetch("/api/admin/products-list")
-      .then(r => r.json())
-      .then(data => { setProducts(data.products || []); setLoading(false) })
-      .catch(() => setLoading(false))
-  }, [])
+async function getProduct(token: string, productId: string) {
+  try {
+    const res = await fetch(`https://api.klafstore.com/api/products/${productId}`, {
+      headers: { "Authorization": `Bearer ${token}` },
+      cache: "no-store"
+    })
+    return await res.json()
+  } catch { return null }
+}
 
-  const filtered = products.filter(p =>
-    p.name?.toLowerCase().includes(search.toLowerCase()) ||
-    p.category?.toLowerCase().includes(search.toLowerCase())
-  )
+export default async function ProductPage({ params }: { params: Promise<{ productId: string }> }) {
+  const { productId } = await params
+  const cookieStore = await cookies()
+  const token = cookieStore.get("accessToken")?.value
+  if (!token) redirect("/login")
+
+  const data = await getProduct(token, productId)
+  const product = data?.product
+  if (!product) redirect("/admin/products")
 
   return (
     <div style={{ minHeight: "100vh", background: "#000", color: "#fff", fontFamily: "Cairo, system-ui, sans-serif", direction: "rtl" }}>
       <div style={{ padding: "16px 20px", borderBottom: "1px solid #111", display: "flex", justifyContent: "space-between", alignItems: "center", position: "sticky", top: 0, background: "#000", zIndex: 10 }}>
-        <Link href="/admin" style={{ color: "#555", fontSize: "13px", textDecoration: "none" }}>← رجوع</Link>
-        <span style={{ fontWeight: "700", fontSize: "16px" }}>المنتجات</span>
-        <Link href="/admin/products/users/klaf/new" style={{ fontSize: "12px", textDecoration: "none", background: "#fff", color: "#000", padding: "6px 14px", borderRadius: "8px", fontWeight: "700" }}>+ إضافة</Link>
+        <Link href="/admin/products" style={{ color: "#555", fontSize: "13px", textDecoration: "none" }}>← رجوع</Link>
+        <span style={{ fontWeight: "700", fontSize: "16px" }}>تفاصيل المنتج</span>
+        <a href={`https://klafstore.com/product/${productId}`} target="_blank" rel="noopener noreferrer"
+          style={{ color: "#555", fontSize: "13px", textDecoration: "none" }}>زيارة ←</a>
       </div>
 
-      <div style={{ padding: "16px", maxWidth: "700px", margin: "0 auto" }}>
-        <input type="text" value={search} onChange={e => setSearch(e.target.value)}
-          placeholder="ابحث عن منتج..."
-          style={{ width: "100%", padding: "13px 16px", background: "#111", border: "1px solid #222", borderRadius: "12px", color: "white", fontSize: "14px", outline: "none", textAlign: "right", fontFamily: "Cairo, system-ui, sans-serif", boxSizing: "border-box" as const, marginBottom: "16px" }} />
+      <div style={{ maxWidth: "500px", margin: "0 auto", padding: "16px" }}>
+        {product.image && (
+          <div style={{ height: "200px", borderRadius: "16px", overflow: "hidden", marginBottom: "20px", background: "#111" }}>
+            <img src={product.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          </div>
+        )}
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px", marginBottom: "20px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1px", background: "#111", borderRadius: "14px", overflow: "hidden", marginBottom: "20px" }}>
           {[
-            { label: "الكل", count: products.length },
-            { label: "كلاف", count: products.filter(p => !p.seller_id).length },
-            { label: "البائعون", count: products.filter(p => p.seller_id).length },
-          ].map(s => (
-            <div key={s.label} style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "12px", padding: "12px", textAlign: "center" }}>
-              <p style={{ fontWeight: "800", fontSize: "20px", margin: 0 }}>{s.count}</p>
-              <p style={{ color: "#555", fontSize: "11px", margin: "4px 0 0" }}>{s.label}</p>
+            { label: "الاسم", value: product.name },
+            { label: "السعر", value: `${product.price} ر.س` },
+            { label: "المخزون", value: product.stock },
+            { label: "التصنيف", value: product.category || "—" },
+            { label: "الحالة", value: product.is_active ? "نشط" : "معطّل" },
+          ].map(row => (
+            <div key={row.label} style={{ display: "flex", justifyContent: "space-between", padding: "14px 16px", background: "#0a0a0a", borderBottom: "1px solid #111" }}>
+              <span style={{ color: "#555", fontSize: "13px" }}>{row.label}</span>
+              <span style={{ fontSize: "13px", fontWeight: "600" }}>{row.value}</span>
             </div>
           ))}
         </div>
 
-        {loading ? (
-          <p style={{ color: "#555", textAlign: "center", padding: "40px 0" }}>جاري التحميل...</p>
-        ) : filtered.length === 0 ? (
-          <p style={{ color: "#555", textAlign: "center", padding: "40px 0" }}>لا يوجد منتجات</p>
-        ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: "10px" }}>
-            {filtered.map((product: any) => {
-              const inactive = !product.is_active
-              return (
-                <div key={product.id} onClick={() => router.push(`/admin/products/${product.id}`)}
-                  style={{ background: "#111", border: `1px solid ${inactive ? "#222" : "#1a1a1a"}`, borderRadius: "14px", overflow: "hidden", cursor: "pointer", position: "relative", filter: inactive ? "grayscale(1)" : "none", opacity: inactive ? 0.6 : 1 }}>
-                  {inactive && (
-                    <div style={{ position: "absolute", top: "8px", right: "8px", background: "#000", border: "1px solid #333", color: "#555", padding: "2px 8px", borderRadius: "20px", fontSize: "10px", fontWeight: "700", zIndex: 1 }}>
-                      معطّل
-                    </div>
-                  )}
-                  <div style={{ height: "120px", background: "#1a1a1a", overflow: "hidden" }}>
-                    {product.image && <img src={product.image} style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
-                  </div>
-                  <div style={{ padding: "10px" }}>
-                    <p style={{ fontWeight: "700", fontSize: "12px", margin: 0, marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{product.name}</p>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: "12px", fontWeight: "800" }}>{product.price} ر.س</span>
-                      <span style={{ fontSize: "10px", color: product.stock > 0 ? "#4ade80" : "#f87171" }}>{product.stock > 0 ? product.stock : "نفذ"}</span>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        )}
+        <ProductActions productId={product.id} isActive={product.is_active} />
       </div>
     </div>
   )
