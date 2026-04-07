@@ -32,7 +32,7 @@ export default async function ProductsPage() {
   const { klafCount, sellersCount } = await getCounts(token)
 
   const sections = [
-    { href: "/admin/products/klafstore", label: "منتجات كلاف", count: klafCount },
+    { href: "/admin/products/users/klaf", label: "منتجات كلاف", count: klafCount },
     { href: "/admin/products/sellers", label: "منتجات البائعين", count: sellersCount },
   ]
 
