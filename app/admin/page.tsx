@@ -105,13 +105,11 @@ export default async function AdminPage() {
 
         {/* الأدوات */}
         <p style={{ color: "#555", fontSize: "11px", marginBottom: "10px", fontWeight: "700" }}>الأدوات</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px" }}>
           {[
             { href: "/admin/ads", label: "الإعلانات", icon: "M19 9l-7 7-7-7" },
             { href: "/admin/categories", label: "التصنيفات", icon: "M4 6h16M4 12h16M4 18h7" },
             { href: "/admin/team", label: "الفريق", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" },
-            { href: "/admin/sellers", label: "البائعون", icon: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10" },
-            { href: "/admin/affiliate", label: "العمولة", icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
             { href: "/admin/trash", label: "السلة", icon: "M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6" },
           ].map(s => (
             <Link key={s.href} href={s.href} style={{ textDecoration: "none" }}>
