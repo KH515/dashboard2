@@ -4,34 +4,29 @@ import Link from "next/link"
 
 export const dynamic = "force-dynamic"
 
-const sections = [
-  { href: "/admin/customers", label: "المستخدمون", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" },
-  { href: "/admin/sellers", label: "البائعون", icon: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10" },
-  { href: "/admin/products", label: "المنتجات", icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
-  { href: "/admin/orders", label: "الطلبات", icon: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8" },
-  { href: "/admin/stats", label: "الإحصائيات", icon: "M18 20V10 M12 20V4 M6 20v-6" },
-  { href: "/admin/categories", label: "التصنيفات", icon: "M4 6h16M4 12h16M4 18h7" },
-  { href: "/admin/ads", label: "الإعلانات", icon: "M19 9l-7 7-7-7" },
-  { href: "/admin/affiliate", label: "العمولات", icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
-  { href: "/admin/team", label: "الفريق", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" },
-  { href: "/admin/trash", label: "السلة", icon: "M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" },
-]
-
 async function getStats(token: string) {
   try {
-    const [usersRes, productsRes, ordersRes] = await Promise.all([
+    const [usersRes, ordersRes] = await Promise.all([
       fetch("https://api.klafstore.com/api/users", { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" }),
-      fetch("https://api.klafstore.com/api/products?limit=1", { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" }),
       fetch("https://api.klafstore.com/api/orders", { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" }),
     ])
     const users = await usersRes.json()
     const orders = await ordersRes.json()
+    const allUsers = users.users || []
     return {
-      users: (users.users || []).length,
+      customers: allUsers.filter((u: any) => u.role === "customer").length,
+      sellers: allUsers.filter((u: any) => u.role === "seller").length,
+      affiliates: allUsers.filter((u: any) => u.role === "affiliate").length,
       orders: (orders.orders || []).length,
     }
-  } catch { return { users: 0, orders: 0 } }
+  } catch { return { customers: 0, sellers: 0, affiliates: 0, orders: 0 } }
 }
+
+const Icon = ({ d }: { d: string }) => (
+  <svg width="20" height="20" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+    <path d={d} />
+  </svg>
+)
 
 export default async function AdminPage() {
   const cookieStore = await cookies()
@@ -63,34 +58,66 @@ export default async function AdminPage() {
         </div>
 
         {/* Ad Banner */}
-        <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "16px", padding: "20px", marginBottom: "20px", textAlign: "center" }}>
-          <p style={{ fontWeight: "800", fontSize: "16px", margin: 0, marginBottom: "6px" }}>انضم لشبكة شركاء النجاح</p>
+        <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "16px", padding: "20px", marginBottom: "24px" }}>
+          <p style={{ fontWeight: "800", fontSize: "15px", margin: 0, marginBottom: "4px" }}>انضم لشبكة شركاء النجاح</p>
           <p style={{ color: "#555", fontSize: "13px", margin: 0 }}>شارك منتجاتنا واكسب عمولة على كل عملية بيع</p>
         </div>
 
         {/* Stats */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "8px", marginBottom: "28px" }}>
           {[
-            { label: "المستخدمون", value: stats.users },
-            { label: "الطلبات", value: stats.orders },
+            { label: "العملاء", value: stats.customers, href: "/admin/customers" },
+            { label: "البائعون", value: stats.sellers, href: "/admin/sellers" },
+            { label: "العمولة", value: stats.affiliates, href: "/admin/affiliate" },
+            { label: "الطلبات", value: stats.orders, href: "/admin/orders" },
           ].map(stat => (
-            <div key={stat.label} style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "14px", padding: "16px", textAlign: "center" }}>
-              <p style={{ fontSize: "28px", fontWeight: "800", margin: 0 }}>{stat.value}</p>
-              <p style={{ color: "#555", fontSize: "12px", margin: "4px 0 0" }}>{stat.label}</p>
-            </div>
+            <Link key={stat.label} href={stat.href} style={{ textDecoration: "none" }}>
+              <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "12px", padding: "12px 8px", textAlign: "center" }}>
+                <p style={{ fontSize: "22px", fontWeight: "800", margin: 0 }}>{stat.value}</p>
+                <p style={{ color: "#555", fontSize: "11px", margin: "4px 0 0" }}>{stat.label}</p>
+              </div>
+            </Link>
           ))}
         </div>
 
-        {/* Grid */}
-        <p style={{ color: "#555", fontSize: "12px", marginBottom: "12px", fontWeight: "700" }}>الأقسام</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
-          {sections.map((section) => (
-            <Link key={section.href} href={section.href} style={{ textDecoration: "none" }}>
-              <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "16px", padding: "20px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
-                <svg width="24" height="24" fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <path d={section.icon} />
-                </svg>
-                <span style={{ fontSize: "13px", fontWeight: "600", color: "#fff", textAlign: "center" }}>{section.label}</span>
+        {/* الإدارة الرئيسية */}
+        <p style={{ color: "#555", fontSize: "11px", marginBottom: "10px", fontWeight: "700" }}>الإدارة</p>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginBottom: "20px" }}>
+          {[
+            { href: "/admin/customers", label: "المستخدمون", desc: "عملاء، بائعون، عمولة، موظفون", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" },
+            { href: "/admin/products", label: "المنتجات", desc: "كل المخزون والمنتجات", icon: "M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" },
+            { href: "/admin/orders", label: "الطلبات", desc: "متابعة وإدارة الطلبات", icon: "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8" },
+            { href: "/admin/stats", label: "الإحصائيات", desc: "تقارير وأرقام المنصة", icon: "M18 20V10 M12 20V4 M6 20v-6" },
+          ].map(s => (
+            <Link key={s.href} href={s.href} style={{ textDecoration: "none" }}>
+              <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "14px", padding: "16px", display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                <div style={{ width: "36px", height: "36px", background: "#1a1a1a", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Icon d={s.icon} />
+                </div>
+                <div>
+                  <p style={{ fontWeight: "700", fontSize: "14px", margin: 0, marginBottom: "2px" }}>{s.label}</p>
+                  <p style={{ color: "#555", fontSize: "11px", margin: 0 }}>{s.desc}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* الأدوات */}
+        <p style={{ color: "#555", fontSize: "11px", marginBottom: "10px", fontWeight: "700" }}>الأدوات</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "10px" }}>
+          {[
+            { href: "/admin/ads", label: "الإعلانات", icon: "M19 9l-7 7-7-7" },
+            { href: "/admin/categories", label: "التصنيفات", icon: "M4 6h16M4 12h16M4 18h7" },
+            { href: "/admin/team", label: "الفريق", icon: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" },
+            { href: "/admin/sellers", label: "البائعون", icon: "M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10" },
+            { href: "/admin/affiliate", label: "العمولة", icon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" },
+            { href: "/admin/trash", label: "السلة", icon: "M3 6h18M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6" },
+          ].map(s => (
+            <Link key={s.href} href={s.href} style={{ textDecoration: "none" }}>
+              <div style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: "14px", padding: "16px 12px", display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
+                <Icon d={s.icon} />
+                <span style={{ fontSize: "12px", fontWeight: "600", color: "#fff", textAlign: "center" }}>{s.label}</span>
               </div>
             </Link>
           ))}
