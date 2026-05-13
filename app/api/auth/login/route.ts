@@ -3,13 +3,21 @@ import { NextRequest, NextResponse } from "next/server"
 export async function POST(request: NextRequest) {
   const body = await request.json()
   
-  const res = await fetch("https://api.klafstore.com/api/auth/login", {
+  const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL
+
+  const res = await fetch(`${apiUrl}/api/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   })
-  
-  const data = await res.json()
+
+  const text = await res.text()
+  let data
+  try {
+    data = JSON.parse(text)
+  } catch {
+    return NextResponse.json({ error: "تعذر الاتصال بالسيرفر" }, { status: 500 })
+  }
   
   if (!res.ok) return NextResponse.json(data, { status: res.status })
   if (!["admin", "seller", "affiliate"].includes(data.user.role)) {
@@ -17,10 +25,10 @@ export async function POST(request: NextRequest) {
   }
   
   const code = Math.floor(100000 + Math.random() * 900000).toString()
-await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/set/${encodeURIComponent(data.user.email)}/${code}/ex/300`, {
-  method: "POST",
-  headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
-})
+  await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/set/${encodeURIComponent(data.user.email)}/${code}/ex/300`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
+  })
 
   const emailRes = await fetch("https://api.resend.com/emails", {
     method: "POST",

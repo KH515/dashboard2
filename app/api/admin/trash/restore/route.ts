@@ -9,8 +9,8 @@ export async function POST(request: NextRequest) {
   const { type, id } = await request.json()
 
   const url = type === "user"
-    ? `https://api.klafstore.com/api/users/trash/${id}/restore`
-    : `https://api.klafstore.com/api/products/trash/${id}/restore`
+    ? `${process.env.NEXT_PUBLIC_API_URL}/api/users/trash/${id}/restore`
+    : `${process.env.NEXT_PUBLIC_API_URL}/api/products/trash/${id}/restore`
 
   const res = await fetch(url, {
     method: "PUT",

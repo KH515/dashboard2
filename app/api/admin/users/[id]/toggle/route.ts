@@ -8,7 +8,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const body = await request.json()
-  const res = await fetch(`https://api.klafstore.com/api/users/${id}/toggle-active`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}/toggle-active`, {
     method: "PUT",
     headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify(body),

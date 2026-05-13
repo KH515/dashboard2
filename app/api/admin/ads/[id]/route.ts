@@ -8,7 +8,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const body = await request.json()
-  const res = await fetch(`https://api.klafstore.com/api/announcements/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/announcements/${id}`, {
     method: "PUT",
     headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -23,7 +23,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   const token = cookieStore.get("accessToken")?.value
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
-  const res = await fetch(`https://api.klafstore.com/api/announcements/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/announcements/${id}`, {
     method: "DELETE",
     headers: { "Authorization": `Bearer ${token}` },
   })

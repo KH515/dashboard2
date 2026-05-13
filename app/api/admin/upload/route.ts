@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const formData = await request.formData()
-  const res = await fetch("https://api.klafstore.com/api/upload", {
+  const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/upload", {
     method: "POST",
     headers: { "Authorization": `Bearer ${token}` },
     body: formData,

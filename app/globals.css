@@ -1,46 +1,11 @@
-@import url("https://klafstore.com/styles/fonts.css");
-
-@import url("https://klafstore.com/styles/fonts.css");
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: 'Kaaf', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
+@font-face { font-family: "ThmanyahSans"; src: url("/fonts/thmanyahsans-Light.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+@font-face { font-family: "ThmanyahSans"; src: url("/fonts/thmanyahsans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "ThmanyahSans"; src: url("/fonts/thmanyahsans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "ThmanyahSans"; src: url("/fonts/thmanyahsans-Bold.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+* { font-family: "ThmanyahSans", system-ui, sans-serif !important; }
+body { direction: rtl; background: #EEEEEE; color: #111; }
+a { color: inherit !important; text-decoration: none !important; }
+input, textarea, select { background: #fff !important; color: #111 !important; border-color: #e5e5e5 !important; }
+button { font-family: "ThmanyahSans", system-ui, sans-serif !important; }
+.admin-icon svg { stroke: #FF835E !important; }
+.admin-icon path, .admin-icon line, .admin-icon circle, .admin-icon polyline, .admin-icon rect { stroke: #FF835E !important; }
