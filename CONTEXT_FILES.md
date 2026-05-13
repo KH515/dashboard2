@@ -20,6 +20,7 @@ app/[locale]/admin/customers/new/page.tsx
 app/[locale]/admin/customers/page.tsx
 app/[locale]/admin/customers/sellers/page.tsx
 app/[locale]/admin/customers/staff/page.tsx
+app/[locale]/admin/lib/auth.ts
 app/[locale]/admin/marketing/ads/actions.tsx
 app/[locale]/admin/marketing/ads/page.tsx
 app/[locale]/admin/marketing/coupons/page.tsx
@@ -64,6 +65,7 @@ app/[locale]/admin/users/roles_permissions/page.tsx
 app/[locale]/admin/users/vendors/page.tsx
 app/[locale]/affiliate/login/page.tsx
 app/[locale]/layout.tsx
+app/[locale]/lib/auth.ts
 app/[locale]/login/page.tsx
 app/[locale]/page.tsx
 app/[locale]/seller/login/page.tsx
