@@ -119,28 +119,26 @@ export default async function AdminPage() {
         </div>
       </div>
 
-      {/* Image Banner */}
-      <div style={{ width:"100%", height:"180px", background:"linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
-        <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.3)" }}></div>
-        <div style={{ position:"relative", zIndex:1, textAlign:"center" as const, color:"#fff" }}>
-          <p style={{ margin:0, fontSize:"13px", opacity:0.7, fontFamily:"Cairo,system-ui,sans-serif" }}>{isAr ? "بنر الصورة — يمكن تغييره من الإعدادات" : "Image Banner — Change from settings"}</p>
-          <p style={{ margin:"4px 0 0", fontSize:"11px", opacity:0.4 }}>1200 × 180px</p>
+      {/* Banners */}
+      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:0 }}>
+        <div style={{ height:"160px", background:"linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%)", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
+          <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.3)" }}></div>
+          <div style={{ position:"relative", zIndex:1, textAlign:"center" as const, color:"#fff", padding:"0 12px" }}>
+            <svg width="24" height="24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" viewBox="0 0 24 24" style={{ marginBottom:6 }}><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+            <p style={{ margin:0, fontSize:"12px", opacity:0.8, fontFamily:"Cairo,system-ui,sans-serif", fontWeight:"700" }}>{isAr ? "بنر الصورة" : "Image Banner"}</p>
+            <p style={{ margin:"2px 0 0", fontSize:"10px", opacity:0.4 }}>1200 × 160px</p>
+          </div>
+          <Link href={L("/admin/store_management/design")} style={{ position:"absolute", bottom:8, right:8, background:"rgba(255,255,255,0.15)", color:"#fff", padding:"3px 8px", borderRadius:"5px", textDecoration:"none", fontSize:"10px", fontWeight:"700" }}>{isAr ? "تعديل" : "Edit"}</Link>
         </div>
-        <div style={{ position:"absolute", top:10, right:10 }}>
-          <Link href={L("/admin/store_management/design")} style={{ background:"rgba(255,255,255,0.15)", color:"#fff", padding:"4px 10px", borderRadius:"6px", textDecoration:"none", fontSize:"11px", fontWeight:"700" }}>{isAr ? "تعديل" : "Edit"}</Link>
-        </div>
-      </div>
-      {/* Video Banner */}
-      <div style={{ width:"100%", background:"#111", padding:"16px", display:"flex", alignItems:"center", justifyContent:"center", gap:12, position:"relative" }}>
-        <div style={{ width:"44px", height:"44px", borderRadius:"50%", background:"rgba(255,131,94,0.15)", border:"2px solid #FF835E", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-          <svg width="18" height="18" fill="#FF835E" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div style={{ color:"#fff" }}>
-          <p style={{ margin:0, fontSize:"13px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif" }}>{isAr ? "بنر الفيديو — يمكن تغييره من الإعدادات" : "Video Banner — Change from settings"}</p>
-          <p style={{ margin:"2px 0 0", fontSize:"11px", color:"#666" }}>{isAr ? "أضف رابط فيديو يوتيوب أو MP4" : "Add YouTube or MP4 video link"}</p>
-        </div>
-        <div style={{ position:"absolute", top:10, right:10 }}>
-          <Link href={L("/admin/store_management/design")} style={{ background:"rgba(255,131,94,0.2)", color:"#FF835E", padding:"4px 10px", borderRadius:"6px", textDecoration:"none", fontSize:"11px", fontWeight:"700" }}>{isAr ? "تعديل" : "Edit"}</Link>
+        <div style={{ height:"160px", background:"#111", position:"relative", display:"flex", alignItems:"center", justifyContent:"center", gap:10 }}>
+          <div style={{ width:"40px", height:"40px", borderRadius:"50%", background:"rgba(255,131,94,0.15)", border:"2px solid #FF835E", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+            <svg width="16" height="16" fill="#FF835E" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <div style={{ color:"#fff", padding:"0 8px" }}>
+            <p style={{ margin:0, fontSize:"12px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif" }}>{isAr ? "بنر الفيديو" : "Video Banner"}</p>
+            <p style={{ margin:"2px 0 0", fontSize:"10px", color:"#555" }}>{isAr ? "يوتيوب أو MP4" : "YouTube or MP4"}</p>
+          </div>
+          <Link href={L("/admin/store_management/design")} style={{ position:"absolute", bottom:8, right:8, background:"rgba(255,131,94,0.2)", color:"#FF835E", padding:"3px 8px", borderRadius:"5px", textDecoration:"none", fontSize:"10px", fontWeight:"700" }}>{isAr ? "تعديل" : "Edit"}</Link>
         </div>
       </div>
 
