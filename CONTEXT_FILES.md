@@ -4,6 +4,7 @@ app/[locale]/admin/ads/page.tsx
 app/[locale]/admin/affiliate/page.tsx
 app/[locale]/admin/analytics/behavior/page.tsx
 app/[locale]/admin/analytics/reports/page.tsx
+app/[locale]/admin/BannerSlider.tsx
 app/[locale]/admin/brands/[username]/builder/page.tsx
 app/[locale]/admin/brands/[username]/page.tsx
 app/[locale]/admin/brands/new/page.tsx
