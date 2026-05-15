@@ -1,23 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
-  const { email, code, accessToken } = await request.json()
+  const { email, code, accessToken, expectedCode } = await request.json()
 
-  // تحقق من الكود في Upstash
-  const kvRes = await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/get/${encodeURIComponent(email)}`, {
-    headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
-  })
-
-  const kvData = await kvRes.json()
-  const storedCode = kvData.result
-
-  if (!storedCode) return NextResponse.json({ error: "الكود غير موجود أو انتهت صلاحيته" }, { status: 400 })
-  if (storedCode !== code) return NextResponse.json({ error: "الكود غير صحيح" }, { status: 400 })
-
-  // احذف الكود
-  await fetch(`${process.env.UPSTASH_REDIS_REST_URL}/del/${encodeURIComponent(email)}`, {
-    headers: { Authorization: `Bearer ${process.env.UPSTASH_REDIS_REST_TOKEN}` },
-  })
+  if (!expectedCode || expectedCode !== code) {
+    return NextResponse.json({ error: "الكود غير صحيح" }, { status: 400 })
+  }
 
   const response = NextResponse.json({ success: true })
   response.cookies.set("accessToken", accessToken, {
