@@ -101,6 +101,12 @@ export default async function AdminPage() {
         <div style={{ maxWidth:"900px", margin:"0 auto", padding:"0 16px", display:"flex", justifyContent:"space-between", alignItems:"center", height:"56px" }}>
           <span style={{ fontSize:"22px", fontWeight:"900", color:"#111", fontFamily:"Cairo,system-ui,sans-serif", letterSpacing:"-0.5px" }}>{isAr ? "كاف" : "Kaaf"}</span>
           <div style={{ display:"flex", gap:8, alignItems:"center" }}>
+            <Link href={L("/admin/profile")} style={{ display:"flex", alignItems:"center", gap:6, background:"#f5f5f7", border:"1px solid #e5e5e5", padding:"5px 10px", borderRadius:"10px", textDecoration:"none", color:"#333" }}>
+              <div style={{ width:"26px", height:"26px", borderRadius:"50%", background:"#FF835E", display:"flex", alignItems:"center", justifyContent:"center" }}>
+                <span style={{ color:"#fff", fontSize:"12px", fontWeight:"800" }}>{user?.name?.[0] || "A"}</span>
+              </div>
+              <span style={{ fontSize:"12px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif" }}>{user?.name || (isAr ? "المدير" : "Admin")}</span>
+            </Link>
             <Link href={`/${otherLocale}/admin`} style={{ background:"#f5f5f7", color:"#333", padding:"6px 12px", borderRadius:"8px", textDecoration:"none", fontSize:"12px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif", border:"1px solid #e5e5e5" }}>
               {isAr ? "EN" : "عربي"}
             </Link>
@@ -113,11 +119,29 @@ export default async function AdminPage() {
         </div>
       </div>
 
-      {/* Banner */}
-      <div style={{ background:"linear-gradient(135deg, #FF835E 0%, #ff5722 100%)", color:"#fff", padding:"12px 16px", textAlign:"center" }}>
-        <p style={{ margin:0, fontSize:"13px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif" }}>
-          {isAr ? "🎉 مرحباً بك في لوحة تحكم كاف — منصتك التجارية الاحترافية" : "🎉 Welcome to Kaaf Dashboard — Your Professional E-commerce Platform"}
-        </p>
+      {/* Image Banner */}
+      <div style={{ width:"100%", height:"180px", background:"linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
+        <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.3)" }}></div>
+        <div style={{ position:"relative", zIndex:1, textAlign:"center" as const, color:"#fff" }}>
+          <p style={{ margin:0, fontSize:"13px", opacity:0.7, fontFamily:"Cairo,system-ui,sans-serif" }}>{isAr ? "بنر الصورة — يمكن تغييره من الإعدادات" : "Image Banner — Change from settings"}</p>
+          <p style={{ margin:"4px 0 0", fontSize:"11px", opacity:0.4 }}>1200 × 180px</p>
+        </div>
+        <div style={{ position:"absolute", top:10, right:10 }}>
+          <Link href={L("/admin/store_management/design")} style={{ background:"rgba(255,255,255,0.15)", color:"#fff", padding:"4px 10px", borderRadius:"6px", textDecoration:"none", fontSize:"11px", fontWeight:"700" }}>{isAr ? "تعديل" : "Edit"}</Link>
+        </div>
+      </div>
+      {/* Video Banner */}
+      <div style={{ width:"100%", background:"#111", padding:"16px", display:"flex", alignItems:"center", justifyContent:"center", gap:12, position:"relative" }}>
+        <div style={{ width:"44px", height:"44px", borderRadius:"50%", background:"rgba(255,131,94,0.15)", border:"2px solid #FF835E", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+          <svg width="18" height="18" fill="#FF835E" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div style={{ color:"#fff" }}>
+          <p style={{ margin:0, fontSize:"13px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif" }}>{isAr ? "بنر الفيديو — يمكن تغييره من الإعدادات" : "Video Banner — Change from settings"}</p>
+          <p style={{ margin:"2px 0 0", fontSize:"11px", color:"#666" }}>{isAr ? "أضف رابط فيديو يوتيوب أو MP4" : "Add YouTube or MP4 video link"}</p>
+        </div>
+        <div style={{ position:"absolute", top:10, right:10 }}>
+          <Link href={L("/admin/store_management/design")} style={{ background:"rgba(255,131,94,0.2)", color:"#FF835E", padding:"4px 10px", borderRadius:"6px", textDecoration:"none", fontSize:"11px", fontWeight:"700" }}>{isAr ? "تعديل" : "Edit"}</Link>
+        </div>
       </div>
 
       <div style={{ maxWidth:"900px", margin:"0 auto", padding:"20px 16px" }}>
