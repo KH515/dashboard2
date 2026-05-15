@@ -60,7 +60,7 @@ export default function ProfilePage() {
       // simulate progress
       const interval = setInterval(() => setUploadProgress(p => Math.min(p + 20, 90)), 200)
       
-      const res = await fetch("/api/upload", { method: "POST", body: formData, credentials: "include" })
+      const res = await fetch("/api/staff/upload", { method: "POST", body: formData, credentials: "include" })
       clearInterval(interval)
       setUploadProgress(100)
       
