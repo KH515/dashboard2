@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "تعذر الاتصال بالسيرفر" }, { status: 500 })
   }
   
-  if (!res.ok) return NextResponse.json(data || { error: "خطأ في المصادقة" }, { status: res.status })
+  console.log("STATUS:", res.status, "DATA:", JSON.stringify(data)); if (!res.ok) return NextResponse.json(data || { error: "خطأ في المصادقة" }, { status: res.status })
   if (!["admin", "seller", "affiliate"].includes(data.user?.role)) {
     return NextResponse.json({ error: "غير مصرح" }, { status: 403 })
   }
