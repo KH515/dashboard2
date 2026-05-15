@@ -102,4 +102,5 @@ app/api/auth/login/route.ts
 app/api/auth/logout/route.ts
 app/api/auth/verify/route.ts
 app/api/staff/me/route.ts
+app/api/staff/profile/route.ts
 app/layout.tsx
