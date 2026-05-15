@@ -118,7 +118,8 @@ export default function ProfilePage() {
           </button>
 
           {showPerms && (
-            <div style={{ margin:"12px auto 0", maxWidth:280, background:"#fff", borderRadius:"14px", padding:"14px", textAlign:"right" as const, boxShadow:"0 8px 30px rgba(0,0,0,.2)", animation:"fadeIn 0.2s ease" }}>
+            <div onClick={() => setShowPerms(false)} style={{ position:"fixed", inset:0, zIndex:50, background:"rgba(0,0,0,0.5)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+            <div onClick={e => e.stopPropagation()} style={{ width:300, background:"#fff", borderRadius:"16px", padding:"20px", textAlign:"right" as const, boxShadow:"0 8px 30px rgba(0,0,0,.3)", animation:"fadeIn 0.2s ease" }}>
               <p style={{ margin:"0 0 10px", fontSize:"12px", fontWeight:"800", color:"#555" }}>الصلاحيات الممنوحة:</p>
               {role.permissions.map((p, i) => (
                 <div key={i} style={{ display:"flex", alignItems:"center", gap:6, padding:"5px 0", borderBottom: i < role.permissions.length - 1 ? "1px solid #f5f5f5" : "none" }}>
@@ -126,7 +127,7 @@ export default function ProfilePage() {
                   <span style={{ fontSize:"12px", color:"#333" }}>{p}</span>
                 </div>
               ))}
-            </div>
+            </div></div>
           )}
 
           {msg && <p style={{ margin:"10px 0 0", fontSize:"12px", color:"#FF835E", fontWeight:"700" }}>{msg}</p>}
