@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     })
   })
 
-  if (!emailRes.ok) return NextResponse.json({ error: "فشل إرسال الإيميل" }, { status: 500 })
+  if (!emailRes.ok) { const emailError = await emailRes.text(); console.error("Email error:", emailError); return NextResponse.json({ error: "فشل إرسال الإيميل", details: emailError }, { status: 500 }) }
 
   return NextResponse.json({ 
     success: true, 
