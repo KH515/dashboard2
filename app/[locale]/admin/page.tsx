@@ -99,7 +99,7 @@ export default async function AdminPage() {
       {/* Header */}
       <div style={{ background:"#fff", borderBottom:"1px solid #e5e5e5", position:"sticky", top:0, zIndex:10, boxShadow:"0 1px 4px rgba(0,0,0,.06)" }}>
         <div style={{ maxWidth:"900px", margin:"0 auto", padding:"0 16px", display:"flex", justifyContent:"space-between", alignItems:"center", height:"56px" }}>
-          <div style={{ display:"flex", alignItems:"center", gap:2 }}><span style={{ fontSize:"20px", fontWeight:"900", color:"#111", fontFamily:"Cairo,system-ui,sans-serif" }}>كاف</span><span style={{ width:"1px", height:"20px", background:"#e5e5e5", margin:"0 8px" }}></span><span style={{ fontSize:"18px", fontWeight:"800", color:"#FF835E", fontFamily:"system-ui,sans-serif" }}>Kaaf</span></div>
+          <span style={{ fontSize:"22px", fontWeight:"900", color:"#111", fontFamily:"Cairo,system-ui,sans-serif", letterSpacing:"-0.5px" }}>{isAr ? "كاف" : "Kaaf"}</span>
           <div style={{ display:"flex", gap:8, alignItems:"center" }}>
             <Link href={`/${otherLocale}/admin`} style={{ background:"#f5f5f7", color:"#333", padding:"6px 12px", borderRadius:"8px", textDecoration:"none", fontSize:"12px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif", border:"1px solid #e5e5e5" }}>
               {isAr ? "EN" : "عربي"}
