@@ -13,6 +13,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [accessToken, setAccessToken] = useState("")
   const [code, setCode] = useState("")
+  const [expectedCode, setExpectedCode] = useState("")
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,6 +29,7 @@ export default function LoginPage() {
       if (!res.ok) { setError(data.error || "حصل خطأ"); setLoading(false); return }
       setEmail(data.email)
       setAccessToken(data.accessToken)
+      setExpectedCode(data.code)
       setLoading(false)
       setStep("code")
     } catch {
@@ -44,7 +46,7 @@ export default function LoginPage() {
       const res = await fetch("/api/auth/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code, accessToken }),
+        body: JSON.stringify({ email, code, accessToken, expectedCode }),
       })
       const data = await res.json()
       if (!res.ok) { setError(data.error || "الكود غير صحيح"); setLoading(false); return }

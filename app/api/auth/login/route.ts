@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
     success: true, 
     email: data.user.email,
     accessToken: data.accessToken,
-    user: data.user
+    user: data.user,
+    code
   })
 }
