@@ -147,7 +147,7 @@ export default function ProfilePage() {
         <div style={{ background: "#fff", borderRadius: "16px", margin: "0 0 0 0", overflow: "hidden", border: "1px solid #f0f0f0" }}>
           <Row href="/ar/admin/profile/edit" label="تعديل الملف الشخصي" desc="الاسم، اليوزرنيم" color="#FF835E"
             icon={<svg width="18" height="18" fill="none" stroke="#FF835E" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>} />
-          <Row href="/ar/admin/profile/change-password" label="تغيير كلمة المرور" desc="تأكد من أمان حسابك" color="#2A3FA0"
+          <Row href="/ar/admin/profile/change-password" label="تغيير كلمة المرور" desc="تأكد من أمان حسابك" color="#2A3FA0" last={true}
             icon={<svg width="18" height="18" fill="none" stroke="#2A3FA0" strokeWidth="1.5" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>} />
         </div>
 
@@ -156,7 +156,7 @@ export default function ProfilePage() {
         <div style={{ background: "#fff", borderRadius: "16px", overflow: "hidden", border: "1px solid #f0f0f0" }}>
           <Row href="/ar/admin" label="اللغة" desc="العربية" color="#2A7A45"
             icon={<svg width="18" height="18" fill="none" stroke="#2A7A45" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M5 8l6 6M4 14l6-6 2-3M2 5h12M7 2h1M22 22l-5-10-5 10M14 18h6"/></svg>} />
-          <Row href="/ar/admin" label="الإشعارات" desc="تحكم في التنبيهات" color="#B07A00"
+          <Row href="/ar/admin" label="الإشعارات" desc="تحكم في التنبيهات" color="#B07A00" last={true}
             icon={<svg width="18" height="18" fill="none" stroke="#B07A00" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>} />
         </div>
 
@@ -165,7 +165,7 @@ export default function ProfilePage() {
         <div style={{ background: "#fff", borderRadius: "16px", overflow: "hidden", border: "1px solid #f0f0f0" }}>
           <Row href="/ar/admin/store_management/policies" label="سياسة الخصوصية" color="#6B46C1"
             icon={<svg width="18" height="18" fill="none" stroke="#6B46C1" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>} />
-          <Row href="/ar/admin" label="المساعدة والدعم" color="#C0392B"
+          <Row href="/ar/admin" label="المساعدة والدعم" color="#C0392B" last={true}
             icon={<svg width="18" height="18" fill="none" stroke="#C0392B" strokeWidth="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>} />
         </div>
 
