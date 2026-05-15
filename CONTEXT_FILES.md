@@ -41,6 +41,7 @@ app/[locale]/admin/products/users/klaf/page.tsx
 app/[locale]/admin/products/view/[id]/actions.tsx
 app/[locale]/admin/products/view/[id]/edit/page.tsx
 app/[locale]/admin/products/view/[id]/page.tsx
+app/[locale]/admin/profile/page.tsx
 app/[locale]/admin/sales/abandoned_carts/page.tsx
 app/[locale]/admin/sales/invoices/page.tsx
 app/[locale]/admin/sales/orders/[id]/page.tsx
