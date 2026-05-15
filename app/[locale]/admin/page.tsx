@@ -27,7 +27,7 @@ async function getStats(token: string, apiUrl: string) {
 
 async function getUser(token: string, apiUrl: string) {
   try {
-    const res = await fetch(`${apiUrl}/api/users/me`, { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" })
+    const res = await fetch(`${apiUrl}/api/staff/me`, { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" })
     const data = await res.json()
     return data.user || null
   } catch { return null }

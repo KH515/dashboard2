@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from "next/server"
+﻿import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
   
   const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"
 
-  const res = await fetch(`${apiUrl}/api/auth/login`, {
+  const res = await fetch(`${apiUrl}/api/staff/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
