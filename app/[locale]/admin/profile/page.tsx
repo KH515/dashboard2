@@ -3,8 +3,6 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 
-const API = process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"
-
 const RoleBadge = ({ role }: { role: string }) => {
   const roles: Record<string, { label: string; color: string; bg: string }> = {
     admin: { label: "مدير", color: "#fff", bg: "#111" },
@@ -26,9 +24,7 @@ export default function ProfilePage() {
   const [pass, setPass] = useState({ current: "", new: "", confirm: "" })
 
   useEffect(() => {
-    const token = document.cookie.match(/accessToken=([^;]+)/)?.[1]
-    if (!token) { router.push("/ar/login"); return }
-    fetch(`${API}/api/staff/me`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch("/api/staff/me", { credentials: "include" })
       .then(r => r.json())
       .then(d => {
         if (d.user) {
@@ -42,14 +38,14 @@ export default function ProfilePage() {
 
   const saveInfo = async () => {
     setSaving(true); setMsg(""); setError("")
-    const token = document.cookie.match(/accessToken=([^;]+)/)?.[1]
-    const res = await fetch(`${API}/api/staff/me`, {
+    const res = await fetch("/api/staff/profile", {
       method: "PUT",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ name: form.name, username: form.username, avatar: form.avatar })
     })
     const data = await res.json()
-    if (res.ok) setMsg("✅ تم حفظ البيانات")
+    if (res.ok) setMsg("تم حفظ البيانات")
     else setError(data.error || "حصل خطأ")
     setSaving(false)
   }
@@ -58,14 +54,14 @@ export default function ProfilePage() {
     if (pass.new !== pass.confirm) { setError("كلمة المرور الجديدة غير متطابقة"); return }
     if (pass.new.length < 6) { setError("كلمة المرور يجب أن تكون 6 أحرف على الأقل"); return }
     setSaving(true); setMsg(""); setError("")
-    const token = document.cookie.match(/accessToken=([^;]+)/)?.[1]
-    const res = await fetch(`${API}/api/staff/me`, {
+    const res = await fetch("/api/staff/profile", {
       method: "PUT",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({ current_password: pass.current, new_password: pass.new })
     })
     const data = await res.json()
-    if (res.ok) { setMsg("✅ تم تغيير كلمة المرور"); setPass({ current: "", new: "", confirm: "" }) }
+    if (res.ok) { setMsg("تم تغيير كلمة المرور"); setPass({ current: "", new: "", confirm: "" }) }
     else setError(data.error || "حصل خطأ")
     setSaving(false)
   }
@@ -80,18 +76,13 @@ export default function ProfilePage() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#F5F5F7", fontFamily: "Cairo,system-ui,sans-serif", direction: "rtl" }}>
-      
-      {/* Header */}
       <div style={{ background: "#fff", borderBottom: "1px solid #e5e5e5", position: "sticky", top: 0, zIndex: 10, boxShadow: "0 1px 4px rgba(0,0,0,.06)" }}>
         <div style={{ maxWidth: "600px", margin: "0 auto", padding: "0 16px", display: "flex", alignItems: "center", gap: 12, height: "56px" }}>
           <Link href="/ar/admin" style={{ color: "#888", textDecoration: "none", fontSize: "20px" }}>←</Link>
           <span style={{ fontSize: "18px", fontWeight: "900", color: "#111" }}>الملف الشخصي</span>
         </div>
       </div>
-
       <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px 16px" }}>
-        
-        {/* Profile Card */}
         <div style={{ background: "#fff", borderRadius: "16px", padding: "24px", marginBottom: "16px", border: "1px solid #e5e5e5", textAlign: "center" as const }}>
           <div style={{ width: "80px", height: "80px", borderRadius: "50%", background: user?.avatar ? "transparent" : "#FF835E", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px", overflow: "hidden", boxShadow: "0 4px 12px rgba(255,131,94,.3)" }}>
             {user?.avatar ? <img src={user.avatar} style={{ width: "100%", height: "100%", objectFit: "cover" }} alt="" /> : <span style={{ color: "#fff", fontSize: "32px", fontWeight: "900" }}>{user?.name?.[0] || "A"}</span>}
@@ -110,22 +101,16 @@ export default function ProfilePage() {
             </div>
           </div>
         </div>
-
-        {/* Tabs */}
         <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
           {[{ key: "info", label: "المعلومات" }, { key: "password", label: "كلمة المرور" }].map(t => (
             <button key={t.key} onClick={() => { setTab(t.key as any); setMsg(""); setError("") }}
-              style={{ flex: 1, padding: "10px", borderRadius: "10px", border: "none", cursor: "pointer", fontFamily: "Cairo,system-ui,sans-serif", fontSize: "13px", fontWeight: "700", background: tab === t.key ? "#111" : "#fff", color: tab === t.key ? "#fff" : "#888", transition: "all 0.2s" }}>
+              style={{ flex: 1, padding: "10px", borderRadius: "10px", border: "none", cursor: "pointer", fontFamily: "Cairo,system-ui,sans-serif", fontSize: "13px", fontWeight: "700", background: tab === t.key ? "#111" : "#fff", color: tab === t.key ? "#fff" : "#888" }}>
               {t.label}
             </button>
           ))}
         </div>
-
-        {/* Messages */}
-        {msg && <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "10px", padding: "12px 16px", marginBottom: 16, color: "#166534", fontSize: "13px", fontWeight: "700" }}>{msg}</div>}
+        {msg && <div style={{ background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "10px", padding: "12px 16px", marginBottom: 16, color: "#166534", fontSize: "13px", fontWeight: "700" }}>✅ {msg}</div>}
         {error && <div style={{ background: "#fef2f2", border: "1px solid #fecaca", borderRadius: "10px", padding: "12px 16px", marginBottom: 16, color: "#991b1b", fontSize: "13px", fontWeight: "700" }}>⚠️ {error}</div>}
-
-        {/* Info Tab */}
         {tab === "info" && (
           <div style={{ background: "#fff", borderRadius: "16px", padding: "20px", border: "1px solid #e5e5e5" }}>
             <div style={{ marginBottom: 16 }}>
@@ -146,8 +131,6 @@ export default function ProfilePage() {
             </button>
           </div>
         )}
-
-        {/* Password Tab */}
         {tab === "password" && (
           <div style={{ background: "#fff", borderRadius: "16px", padding: "20px", border: "1px solid #e5e5e5" }}>
             <div style={{ marginBottom: 16 }}>
