@@ -8,8 +8,8 @@ export const dynamic = "force-dynamic"
 async function getStats(token: string) {
   try {
     const [usersRes, ordersRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users", { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" }),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders", { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users`, { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders`, { headers: { "Authorization": `Bearer ${token}` }, cache: "no-store" }),
     ])
     const users = await usersRes.json()
     const orders = await ordersRes.json()
