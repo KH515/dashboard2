@@ -120,25 +120,26 @@ export default async function AdminPage() {
       </div>
 
       {/* Banners */}
-      <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:0 }}>
-        <div style={{ height:"160px", background:"linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%)", position:"relative", overflow:"hidden", display:"flex", alignItems:"center", justifyContent:"center" }}>
-          <div style={{ position:"absolute", inset:0, background:"rgba(0,0,0,0.3)" }}></div>
-          <div style={{ position:"relative", zIndex:1, textAlign:"center" as const, color:"#fff", padding:"0 12px" }}>
-            <svg width="24" height="24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="1.5" viewBox="0 0 24 24" style={{ marginBottom:6 }}><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-            <p style={{ margin:0, fontSize:"12px", opacity:0.8, fontFamily:"Cairo,system-ui,sans-serif", fontWeight:"700" }}>{isAr ? "بنر الصورة" : "Image Banner"}</p>
-            <p style={{ margin:"2px 0 0", fontSize:"10px", opacity:0.4 }}>1200 × 160px</p>
+      <div style={{ width:"100%", position:"relative", overflow:"hidden", background:"#0f172a", borderBottom:"1px solid #1e293b" }}>
+        <div style={{ display:"flex", height:"140px" }}>
+          <div style={{ flex:1, background:"linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%)", display:"flex", alignItems:"center", justifyContent:"center", position:"relative", borderRight:"1px solid #1e293b" }}>
+            <div style={{ textAlign:"center" as const, color:"#fff", padding:"0 16px" }}>
+              <svg width="28" height="28" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" viewBox="0 0 24 24" style={{ marginBottom:8, display:"block", margin:"0 auto 8px" }}><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <p style={{ margin:0, fontSize:"12px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif", opacity:0.8 }}>{isAr ? "بنر الصورة" : "Image Banner"}</p>
+              <p style={{ margin:"3px 0 0", fontSize:"10px", opacity:0.4 }}>{isAr ? "يتغير تلقائياً" : "Auto slides"}</p>
+            </div>
+            <Link href={L("/admin/marketing/ads")} style={{ position:"absolute", bottom:8, right:8, background:"rgba(255,255,255,0.1)", color:"#fff", padding:"3px 8px", borderRadius:"5px", textDecoration:"none", fontSize:"10px", fontWeight:"700", backdropFilter:"blur(4px)" }}>{isAr ? "تعديل" : "Edit"}</Link>
           </div>
-          <Link href={L("/admin/store_management/design")} style={{ position:"absolute", bottom:8, right:8, background:"rgba(255,255,255,0.15)", color:"#fff", padding:"3px 8px", borderRadius:"5px", textDecoration:"none", fontSize:"10px", fontWeight:"700" }}>{isAr ? "تعديل" : "Edit"}</Link>
-        </div>
-        <div style={{ height:"160px", background:"#111", position:"relative", display:"flex", alignItems:"center", justifyContent:"center", gap:10 }}>
-          <div style={{ width:"40px", height:"40px", borderRadius:"50%", background:"rgba(255,131,94,0.15)", border:"2px solid #FF835E", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
-            <svg width="16" height="16" fill="#FF835E" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <div style={{ flex:1, background:"#0d0d0d", display:"flex", alignItems:"center", justifyContent:"center", position:"relative", gap:10 }}>
+            <div style={{ width:"42px", height:"42px", borderRadius:"50%", background:"rgba(255,131,94,0.1)", border:"1.5px solid #FF835E", display:"flex", alignItems:"center", justifyContent:"center", flexShrink:0 }}>
+              <svg width="16" height="16" fill="#FF835E" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div style={{ color:"#fff" }}>
+              <p style={{ margin:0, fontSize:"12px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif" }}>{isAr ? "بنر الفيديو" : "Video Banner"}</p>
+              <p style={{ margin:"3px 0 0", fontSize:"10px", color:"#444" }}>{isAr ? "يوتيوب أو MP4" : "YouTube or MP4"}</p>
+            </div>
+            <Link href={L("/admin/marketing/ads")} style={{ position:"absolute", bottom:8, right:8, background:"rgba(255,131,94,0.15)", color:"#FF835E", padding:"3px 8px", borderRadius:"5px", textDecoration:"none", fontSize:"10px", fontWeight:"700" }}>{isAr ? "تعديل" : "Edit"}</Link>
           </div>
-          <div style={{ color:"#fff", padding:"0 8px" }}>
-            <p style={{ margin:0, fontSize:"12px", fontWeight:"700", fontFamily:"Cairo,system-ui,sans-serif" }}>{isAr ? "بنر الفيديو" : "Video Banner"}</p>
-            <p style={{ margin:"2px 0 0", fontSize:"10px", color:"#555" }}>{isAr ? "يوتيوب أو MP4" : "YouTube or MP4"}</p>
-          </div>
-          <Link href={L("/admin/store_management/design")} style={{ position:"absolute", bottom:8, right:8, background:"rgba(255,131,94,0.2)", color:"#FF835E", padding:"3px 8px", borderRadius:"5px", textDecoration:"none", fontSize:"10px", fontWeight:"700" }}>{isAr ? "تعديل" : "Edit"}</Link>
         </div>
       </div>
 
