@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const body = await request.json()
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/announcements", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/announcements`, {
     method: "POST",
     headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json" },
     body: JSON.stringify(body),
