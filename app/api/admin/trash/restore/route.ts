@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
   const res = await fetch(url, {
     method: "PUT",
-    headers: { "Authorization": `Bearer ${token}` },
+    headers: { "Authorization": "Bearer " + token },
   })
 
   const data = await res.json()

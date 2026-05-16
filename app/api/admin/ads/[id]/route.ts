@@ -10,7 +10,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   const body = await request.json()
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/announcements/${id}`, {
     method: "PUT",
-    headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+    headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json" },
     body: JSON.stringify(body),
   })
   const data = await res.json()
@@ -25,7 +25,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/announcements/${id}`, {
     method: "DELETE",
-    headers: { "Authorization": `Bearer ${token}` },
+    headers: { "Authorization": "Bearer " + token },
   })
   const data = await res.json()
   return NextResponse.json(data, { status: res.status })

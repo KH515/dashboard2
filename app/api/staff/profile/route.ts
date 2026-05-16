@@ -9,7 +9,7 @@ export async function PUT(request: NextRequest) {
   const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"
   const res = await fetch(`${apiUrl}/api/staff/me`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
     body: JSON.stringify(body),
     cache: "no-store"
   })

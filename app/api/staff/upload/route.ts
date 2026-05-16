@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   
   const res = await fetch(`${apiUrl}/api/upload`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: "Bearer " + token },
     body: formData,
   })
   const data = await res.json()

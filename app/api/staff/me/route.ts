@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
 
   const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"
   const res = await fetch(`${apiUrl}/api/staff/me`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: "Bearer " + token },
     cache: "no-store"
   })
   const data = await res.json()

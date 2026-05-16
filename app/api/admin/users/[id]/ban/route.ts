@@ -9,7 +9,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/users/${id}/ban`, {
     method: "PUT",
-    headers: { "Authorization": `Bearer ${token}` },
+    headers: { "Authorization": "Bearer " + token },
   })
 
   const data = await res.json()
