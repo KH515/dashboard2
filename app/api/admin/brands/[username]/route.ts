@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+﻿import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ username: string }> }) {
@@ -8,7 +8,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const body = await request.json()
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/brands/${username}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/brands/${username}`, {
     method: "PUT",
     headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify(body),

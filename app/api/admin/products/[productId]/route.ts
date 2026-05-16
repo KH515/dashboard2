@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+﻿import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ productId: string }> }) {
@@ -7,7 +7,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const token = cookieStore.get("accessToken")?.value
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/products/${productId}`, {
     headers: { "Authorization": `Bearer ${token}` },
   })
   const data = await res.json()
@@ -21,7 +21,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const body = await request.json()
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/products/${productId}`, {
     method: "PUT",
     headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -36,7 +36,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   const token = cookieStore.get("accessToken")?.value
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/products/${productId}`, {
     method: "DELETE",
     headers: { "Authorization": `Bearer ${token}` },
   })

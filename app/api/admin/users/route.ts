@@ -8,11 +8,11 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json()
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`,
+      `Authorization`: `Bearer ${token}`,
     },
     body: JSON.stringify(body),
   })

@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+﻿import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
 export async function POST(request: NextRequest) {
@@ -9,8 +9,8 @@ export async function POST(request: NextRequest) {
   const { type, id } = await request.json()
 
   const url = type === "user"
-    ? `${process.env.NEXT_PUBLIC_API_URL}/api/users/trash/${id}/restore`
-    : `${process.env.NEXT_PUBLIC_API_URL}/api/products/trash/${id}/restore`
+    ? `${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/users/trash/${id}/restore`
+    : `${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/products/trash/${id}/restore`
 
   const res = await fetch(url, {
     method: "PUT",
