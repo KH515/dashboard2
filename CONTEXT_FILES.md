@@ -31,6 +31,7 @@ app/[locale]/admin/page.tsx
 app/[locale]/admin/pages/[id]/page.tsx
 app/[locale]/admin/pages/new/page.tsx
 app/[locale]/admin/pages/page.tsx
+app/[locale]/admin/products/[id]/edit/page.tsx
 app/[locale]/admin/products/[id]/page.tsx
 app/[locale]/admin/products/affiliate/[username]/page.tsx
 app/[locale]/admin/products/affiliate/page.tsx
