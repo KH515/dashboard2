@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+﻿import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
 export async function GET() {
@@ -6,7 +6,7 @@ export async function GET() {
   const token = cookieStore.get("accessToken")?.value
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
-  const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/announcements/all", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/announcements/all", {
     headers: { "Authorization": `Bearer ${token}` },
   })
   const data = await res.json()
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const body = await request.json()
-  const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/announcements", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/announcements", {
     method: "POST",
     headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify(body),

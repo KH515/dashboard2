@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+﻿import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -7,7 +7,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   const token = cookieStore.get("accessToken")?.value
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
-  const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/orders/" + id, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/" + id, {
     headers: { "Authorization": "Bearer " + token },
     cache: "no-store",
   })
@@ -24,7 +24,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
   const body = await req.json()
 
-  const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/orders/" + id + "/status", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/" + id + "/status", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

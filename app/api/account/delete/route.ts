@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+﻿import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
 export async function DELETE(request: NextRequest) {
@@ -6,7 +6,7 @@ export async function DELETE(request: NextRequest) {
   const token = cookieStore.get("accessToken")?.value
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
-  const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/users/me", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/me", {
     method: "DELETE",
     headers: { "Authorization": `Bearer ${token}` },
   })

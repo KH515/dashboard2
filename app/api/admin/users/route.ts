@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server"
+﻿import { NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
 export async function POST(request: NextRequest) {
@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json()
 
-  const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/auth/register", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server"
+﻿import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
 
 export async function GET() {
@@ -7,10 +7,10 @@ export async function GET() {
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const [usersRes, productsRes] = await Promise.all([
-    fetch("${process.env.NEXT_PUBLIC_API_URL}/api/users/trash", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/users/trash", {
       headers: { "Authorization": `Bearer ${token}` },
     }),
-    fetch("${process.env.NEXT_PUBLIC_API_URL}/api/products/trash", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/trash", {
       headers: { "Authorization": `Bearer ${token}` },
     }),
   ])
