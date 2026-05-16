@@ -6,8 +6,8 @@ export async function GET() {
   const token = cookieStore.get("accessToken")?.value
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/announcements/all", {
-    headers: { "Authorization": `Bearer ${token}` },
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/announcements/all`, {
+    headers: { "Authorization": "Bearer " + token },
   })
   const data = await res.json()
   return NextResponse.json(data, { status: res.status })
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json()
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/announcements", {
     method: "POST",
-    headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+    headers: { "Authorization": "Bearer " + token, "Content-Type": "application/json" },
     body: JSON.stringify(body),
   })
   const data = await res.json()
