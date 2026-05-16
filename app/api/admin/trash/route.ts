@@ -8,10 +8,10 @@ export async function GET() {
 
   const [usersRes, productsRes] = await Promise.all([
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/users/trash", {
-      headers: { `Authorization`: `Bearer ${token}` },
+      headers: { "Authorization": `Bearer ${token}` },
     }),
     fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/products/trash", {
-      headers: { `Authorization`: `Bearer ${token}` },
+      headers: { "Authorization": `Bearer ${token}` },
     }),
   ])
 

@@ -15,7 +15,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const { id } = await params
   const cookieStore = await cookies()
   const token = cookieStore.get("accessToken")?.value
-  if (!token) return NextResponse.json({ error: `غير مصرح` }, { status: 401 })
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/categories/" + id, { method: "DELETE", headers: { Authorization: `Bearer ` + token } })
+  if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/categories/" + id, { method: "DELETE", headers: { Authorization: "Bearer " + token } })
   return NextResponse.json(await res.json(), { status: res.status })
 }

@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
   const formData = await request.formData()
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/upload", {
     method: "POST",
-    headers: { `Authorization`: `Bearer ${token}` },
+    headers: { "Authorization": `Bearer ${token}` },
     body: formData,
   })
 

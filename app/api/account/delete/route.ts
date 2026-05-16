@@ -8,7 +8,7 @@ export async function DELETE(request: NextRequest) {
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/users/me", {
     method: "DELETE",
-    headers: { `Authorization`: `Bearer ${token}` },
+    headers: { "Authorization": `Bearer ${token}` },
   })
 
   const data = await res.json()

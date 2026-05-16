@@ -7,7 +7,7 @@ export async function GET() {
   if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/orders", {
-    headers: { `Authorization`: `Bearer ${token}` },
+    headers: { "Authorization": `Bearer ${token}` },
     cache: "no-store",
   })
 

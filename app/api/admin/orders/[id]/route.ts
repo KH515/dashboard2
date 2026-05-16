@@ -20,7 +20,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const { id } = await params
   const cookieStore = await cookies()
   const token = cookieStore.get("accessToken")?.value
-  if (!token) return NextResponse.json({ error: `غير مصرح` }, { status: 401 })
+  if (!token) return NextResponse.json({ error: "غير مصرح" }, { status: 401 })
 
   const body = await req.json()
 
