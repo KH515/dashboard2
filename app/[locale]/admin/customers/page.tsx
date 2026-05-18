@@ -1,4 +1,4 @@
-import { cookies } from "next/headers"
+﻿import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 import Link from "next/link"
 
@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic"
 
 async function getUsers(token: string) {
   try {
-    const res = await fetch("${process.env.NEXT_PUBLIC_API_URL}/api/users", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"}/api/users`, {
       headers: { "Authorization": `Bearer ${token}` },
       cache: "no-store"
     })
