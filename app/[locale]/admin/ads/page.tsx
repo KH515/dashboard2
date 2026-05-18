@@ -25,7 +25,8 @@ export default function AdsPage() {
   const [msg, setMsg] = useState("")
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState<any>(null)
-  const [form, setForm] = useState({ title:"", subtitle:"", cta_text:"", cta_url:"", bg_color:"#FF835E", placement:"profile_orders", position:"top", image_url:"", is_active:1 })
+  const [form, setForm] = useState({ title:"", subtitle:"", cta_text:"", cta_url:"", bg_color:"#FF835E", placement:"profile_orders", position:"top", image_url:"", media_type:"image", is_active:1 })
+  const [uploading, setUploading] = useState(false)
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"
 
@@ -129,9 +130,43 @@ export default function AdsPage() {
                 {POSITIONS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
               </select>
             </div>
-            <div>
-              <label style={{ fontSize:"11px", fontWeight:"700", color:"#888", display:"block", marginBottom:4 }}>رابط الصورة (CDN)</label>
-              <input style={inp} value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})} placeholder="https://..." dir="ltr" />
+            <div style={{ gridColumn:"1 / -1" }}>
+              <label style={{ fontSize:"11px", fontWeight:"700", color:"#888", display:"block", marginBottom:4 }}>الصورة أو الفيديو</label>
+              <div style={{ display:"flex", gap:8, marginBottom:8 }}>
+                <button onClick={() => setForm({...form, media_type:"image"})} style={{ flex:1, padding:"7px", borderRadius:"8px", border: form.media_type==="image" ? "2px solid #FF835E" : "1px solid #e5e5e5", background: form.media_type==="image" ? "#fff3f0" : "#f5f5f7", color: form.media_type==="image" ? "#FF835E" : "#888", fontWeight:"700", fontSize:"12px", cursor:"pointer", fontFamily:"Cairo,system-ui,sans-serif" }}>🖼 صورة</button>
+                <button onClick={() => setForm({...form, media_type:"video"})} style={{ flex:1, padding:"7px", borderRadius:"8px", border: form.media_type==="video" ? "2px solid #FF835E" : "1px solid #e5e5e5", background: form.media_type==="video" ? "#fff3f0" : "#f5f5f7", color: form.media_type==="video" ? "#FF835E" : "#888", fontWeight:"700", fontSize:"12px", cursor:"pointer", fontFamily:"Cairo,system-ui,sans-serif" }}>🎬 فيديو</button>
+              </div>
+              <div style={{ border:"2px dashed #e5e5e5", borderRadius:"10px", padding:"16px", textAlign:"center" as const, position:"relative" as const }}>
+                {form.image_url ? (
+                  <div style={{ position:"relative" as const }}>
+                    {form.media_type === "video"
+                      ? <video src={form.image_url} style={{ width:"100%", maxHeight:120, borderRadius:8 }} controls />
+                      : <img src={form.image_url} style={{ width:"100%", maxHeight:120, objectFit:"cover", borderRadius:8 }} alt="" />}
+                    <button onClick={() => setForm({...form, image_url:""})} style={{ position:"absolute" as const, top:4, left:4, background:"rgba(0,0,0,.5)", color:"#fff", border:"none", borderRadius:"50%", width:24, height:24, cursor:"pointer", fontSize:14 }}>×</button>
+                  </div>
+                ) : (
+                  <div>
+                    <p style={{ color:"#aaa", fontSize:"12px", margin:"0 0 8px" }}>{uploading ? "جاري الرفع..." : "اختر ملف أو اسحبه هنا"}</p>
+                    <label style={{ background:"#FF835E", color:"#fff", padding:"7px 16px", borderRadius:"8px", fontSize:"12px", fontWeight:"700", cursor:"pointer", display:"inline-block" }}>
+                      {uploading ? "..." : "رفع ملف"}
+                      <input type="file" accept={form.media_type==="video" ? "video/*" : "image/*"} style={{ display:"none" }} onChange={async e => {
+                        const file = e.target.files?.[0]
+                        if (!file) return
+                        setUploading(true)
+                        const fd = new FormData()
+                        fd.append("file", file)
+                        fd.append("folder", "banners")
+                        try {
+                          const res = await fetch(`${apiUrl}/api/upload`, { method:"POST", headers:{ Authorization:"Bearer "+getToken() }, body:fd })
+                          const data = await res.json()
+                          if (data.url) setForm(f => ({...f, image_url:data.url}))
+                        } catch {} finally { setUploading(false) }
+                      }} />
+                    </label>
+                  </div>
+                )}
+              </div>
+              {form.image_url && <input style={{...inp, marginTop:6}} value={form.image_url} onChange={e=>setForm({...form,image_url:e.target.value})} dir="ltr" placeholder="أو أدخل الرابط يدوياً" />}
             </div>
             <div>
               <label style={{ fontSize:"11px", fontWeight:"700", color:"#888", display:"block", marginBottom:4 }}>لون الخلفية</label>
