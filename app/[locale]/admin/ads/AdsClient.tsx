@@ -15,7 +15,7 @@ const POSITIONS = [
   { value:"bottom", label:"أسفل الصفحة" },
 ]
 
-const emptyForm = { title:"", subtitle:"", cta_text:"", cta_url:"", bg_color:"#FF835E", placement:"profile_orders", position:"top", image_url:"", media_type:"image", is_active:1 }
+const emptyForm = { title:"", subtitle:"", cta_text:"تسوق الآن", cta_url:"/", bg_color:"#FF835E", placement:"profile_orders", position:"top", image_url:"", media_type:"image", is_active:1 }
 
 export default function AdsClient({ token, initialAds }: { token: string, initialAds: any[] }) {
   const [ads, setAds] = useState<any[]>(initialAds || [])
