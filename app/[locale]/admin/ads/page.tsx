@@ -9,5 +9,6 @@ export default async function AdsPage() {
   const token = cookieStore.get("accessToken")?.value
   if (!token) redirect("/login")
 
+  console.log("TOKEN:", token?.slice(0,20))
   return <AdsClient token={token} />
 }
