@@ -30,7 +30,11 @@ export default function AdsPage() {
   const fileRef = useRef<HTMLInputElement>(null)
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://api.klafstore.com"
-  const getToken = () => typeof window !== "undefined" ? localStorage.getItem("token") || "" : ""
+  const getToken = () => {
+    if (typeof window === "undefined") return ""
+    const match = document.cookie.match(/accessToken=([^;]+)/)
+    return match ? match[1] : ""
+  }
 
   const fetchAds = async () => {
     setLoading(true)
