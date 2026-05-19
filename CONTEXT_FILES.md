@@ -103,6 +103,7 @@ app/api/admin/users/[id]/route.ts
 app/api/admin/users/[id]/toggle/route.ts
 app/api/admin/users/route.ts
 app/api/ads-proxy/[id]/route.ts
+app/api/ads-proxy/route.ts
 app/api/auth/login/route.ts
 app/api/auth/logout/route.ts
 app/api/auth/verify/route.ts
