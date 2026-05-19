@@ -51,7 +51,7 @@ export default function AdsClient({ token, initialAds }: { token: string, initia
         body: JSON.stringify({ title:form.title, subtitle:form.subtitle, cta_text:form.cta_text, cta_url:form.cta_url, bg_color:form.bg_color, placement:form.placement, position:form.position, image_url:form.image_url, is_active:form.is_active })
       })
       const data = await res.json()
-      if (res.ok) {
+      if (res.ok || data.ad || data.message) {
         setMsg(editing ? "تم تحديث الإعلان ✅" : "تم إضافة الإعلان ✅")
         setShowForm(false); setEditing(null); setForm({...emptyForm})
         fetchAds()
