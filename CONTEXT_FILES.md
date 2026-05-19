@@ -13,6 +13,7 @@ app/[locale]/admin/ads/loyalty/page.tsx
 app/[locale]/admin/ads/new/page.tsx
 app/[locale]/admin/ads/orders/page.tsx
 app/[locale]/admin/ads/page.tsx
+app/[locale]/admin/ads/support/page.tsx
 app/[locale]/admin/ads/wishlist/page.tsx
 app/[locale]/admin/affiliate/page.tsx
 app/[locale]/admin/analytics/behavior/page.tsx

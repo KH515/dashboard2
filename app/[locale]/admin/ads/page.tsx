@@ -17,6 +17,7 @@ export default async function AdsPage() {
     { href:"edit", label:"تعديل الملف", sub:"إعلانات صفحة التعديل", color:"#7c3aed", icon:<svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> },
     { href:"home", label:"الرئيسية", sub:"إعلانات الصفحة الرئيسية", color:"#166534", icon:<svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
     { href:"login", label:"صفحات التسجيل", sub:"إعلانات تسجيل الدخول", color:"#0f172a", icon:<svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg> },
+    { href:"support", label:"صفحة الدعم", sub:"بنر صفحة نساعدك", color:"#166534", icon:<svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg> },
   ]
 
   return (
