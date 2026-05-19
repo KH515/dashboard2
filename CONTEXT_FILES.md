@@ -102,10 +102,12 @@ app/api/admin/users/[id]/ban/route.ts
 app/api/admin/users/[id]/route.ts
 app/api/admin/users/[id]/toggle/route.ts
 app/api/admin/users/route.ts
+app/api/ads-proxy/[id]/route.ts
 app/api/auth/login/route.ts
 app/api/auth/logout/route.ts
 app/api/auth/verify/route.ts
 app/api/staff/me/route.ts
 app/api/staff/profile/route.ts
 app/api/staff/upload/route.ts
+app/api/upload-proxy/route.ts
 app/layout.tsx

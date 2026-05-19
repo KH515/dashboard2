@@ -17,9 +17,9 @@ const POSITIONS = [
 
 const emptyForm = { title:"", subtitle:"", cta_text:"", cta_url:"", bg_color:"#FF835E", placement:"profile_orders", position:"top", image_url:"", media_type:"image", is_active:1 }
 
-export default function AdsClient({ token }: { token: string }) {
-  const [ads, setAds] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+export default function AdsClient({ token, initialAds }: { token: string, initialAds: any[] }) {
+  const [ads, setAds] = useState<any[]>(initialAds || [])
+  const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [msg, setMsg] = useState("")
@@ -33,7 +33,7 @@ export default function AdsClient({ token }: { token: string }) {
   const fetchAds = async () => {
     setLoading(true)
     try {
-      const res = await fetch(`${apiUrl}/api/ads/all`, { headers:{ Authorization:"Bearer "+token } })
+      const res = await fetch("/api/ads-proxy")
       const data = await res.json()
       setAds(data.ads || [])
     } catch {} finally { setLoading(false) }
@@ -44,10 +44,10 @@ export default function AdsClient({ token }: { token: string }) {
   const save = async () => {
     setSaving(true)
     try {
-      const url = editing ? `${apiUrl}/api/ads/${editing.id}` : `${apiUrl}/api/ads`
+      const url = editing ? `/api/ads-proxy/${editing.id}` : "/api/ads-proxy"
       const res = await fetch(url, {
         method: editing ? "PUT" : "POST",
-        headers:{ Authorization:"Bearer "+token, "Content-Type":"application/json" },
+        headers:{ "Content-Type":"application/json" },
         body: JSON.stringify({ title:form.title, subtitle:form.subtitle, cta_text:form.cta_text, cta_url:form.cta_url, bg_color:form.bg_color, placement:form.placement, position:form.position, image_url:form.image_url, is_active:form.is_active })
       })
       const data = await res.json()
@@ -66,20 +66,20 @@ export default function AdsClient({ token }: { token: string }) {
     fd.append("file", file)
     fd.append("folder", "banners")
     try {
-      const res = await fetch(`${apiUrl}/api/upload`, { method:"POST", headers:{ Authorization:"Bearer "+token }, body:fd })
+      const res = await fetch("/api/upload-proxy", { method:"POST", body:fd })
       const data = await res.json()
       if (data.url) setForm(f => ({...f, image_url:data.url}))
     } catch {} finally { setUploading(false) }
   }
 
   const toggleActive = async (ad: any) => {
-    await fetch(`${apiUrl}/api/ads/${ad.id}`, { method:"PUT", headers:{ Authorization:"Bearer "+token, "Content-Type":"application/json" }, body: JSON.stringify({ is_active: ad.is_active ? 0 : 1 }) })
+    await fetch(`/api/ads-proxy/${ad.id}`, { method:"PUT", headers:{ "Content-Type":"application/json" }, body: JSON.stringify({ is_active: ad.is_active ? 0 : 1 }) })
     fetchAds()
   }
 
   const deleteAd = async (id: number) => {
     if (!confirm("حذف الإعلان؟")) return
-    await fetch(`${apiUrl}/api/ads/${id}`, { method:"DELETE", headers:{ Authorization:"Bearer "+token } })
+    await fetch(`/api/ads-proxy/${id}`, { method:"DELETE" })
     fetchAds()
   }
 

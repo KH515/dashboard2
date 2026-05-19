@@ -4,11 +4,23 @@ import AdsClient from "./AdsClient"
 
 export const dynamic = "force-dynamic"
 
+async function getAds(token: string) {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/ads/all`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store"
+    })
+    const data = await res.json()
+    return data.ads || []
+  } catch { return [] }
+}
+
 export default async function AdsPage() {
   const cookieStore = await cookies()
   const token = cookieStore.get("accessToken")?.value
   if (!token) redirect("/login")
 
-  console.log("TOKEN:", token?.slice(0,20))
-  return <AdsClient token={token} />
+  const ads = await getAds(token)
+
+  return <AdsClient token={token} initialAds={ads} />
 }
