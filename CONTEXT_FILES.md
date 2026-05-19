@@ -1,4 +1,5 @@
 app/[locale]/admin/ads/actions.tsx
+app/[locale]/admin/ads/AdsClient.tsx
 app/[locale]/admin/ads/new/page.tsx
 app/[locale]/admin/ads/page.tsx
 app/[locale]/admin/affiliate/page.tsx
