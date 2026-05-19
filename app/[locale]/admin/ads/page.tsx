@@ -16,6 +16,7 @@ export default async function AdsPage() {
     { href:"loyalty", label:"نظام الولاء", sub:"إعلانات صفحة الولاء", color:"#f59e0b", icon:<svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> },
     { href:"edit", label:"تعديل الملف", sub:"إعلانات صفحة التعديل", color:"#7c3aed", icon:<svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> },
     { href:"home", label:"الرئيسية", sub:"إعلانات الصفحة الرئيسية", color:"#166534", icon:<svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> },
+    { href:"login", label:"صفحات التسجيل", sub:"إعلانات تسجيل الدخول", color:"#0f172a", icon:<svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg> },
   ]
 
   return (

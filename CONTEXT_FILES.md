@@ -3,6 +3,12 @@ app/[locale]/admin/ads/AdsClient.tsx
 app/[locale]/admin/ads/edit/page.tsx
 app/[locale]/admin/ads/home/page.tsx
 app/[locale]/admin/ads/invoices/page.tsx
+app/[locale]/admin/ads/login/admin/page.tsx
+app/[locale]/admin/ads/login/affiliate/page.tsx
+app/[locale]/admin/ads/login/customer/page.tsx
+app/[locale]/admin/ads/login/page.tsx
+app/[locale]/admin/ads/login/seller/page.tsx
+app/[locale]/admin/ads/login/staff/page.tsx
 app/[locale]/admin/ads/loyalty/page.tsx
 app/[locale]/admin/ads/new/page.tsx
 app/[locale]/admin/ads/orders/page.tsx
