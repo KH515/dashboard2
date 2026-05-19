@@ -78,7 +78,7 @@ export default async function AdminPage() {
     { title: t("nav.marketing"), color:"#2A3FA0", items: [
       { href: L("/admin/marketing/coupons"), label: isAr ? "الكوبونات" : "Coupons", desc: isAr ? "أكواد الخصم" : "Discount codes", icon:"M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" },
       { href: L("/admin/marketing/campaigns"), label: isAr ? "الحملات" : "Campaigns", desc: isAr ? "الحملات التسويقية" : "Marketing campaigns", icon:"M22 12h-4l-3 9L9 3l-3 9H2" },
-      { href: L("/admin/marketing/ads"), label: isAr ? "الإعلانات" : "Ads", desc: isAr ? "البنرات والإعلانات" : "Banners and ads", icon:"M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" },
+      { href: L("/admin/ads"), label: isAr ? "إعلانات البروفايل" : "Profile Ads", desc: isAr ? "بنرات صفحات الحساب" : "Account page banners", icon:"M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" },
     ]},
     { title: t("nav.sales"), color:"#B07A00", items: [
       { href: L("/admin/sales/orders"), label: isAr ? "الطلبات" : "Orders", desc: isAr ? "متابعة وإدارة الطلبات" : "Track and manage orders", icon:"M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" },
