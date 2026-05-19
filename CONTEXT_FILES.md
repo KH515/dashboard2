@@ -1,7 +1,13 @@
 app/[locale]/admin/ads/actions.tsx
 app/[locale]/admin/ads/AdsClient.tsx
+app/[locale]/admin/ads/edit/page.tsx
+app/[locale]/admin/ads/home/page.tsx
+app/[locale]/admin/ads/invoices/page.tsx
+app/[locale]/admin/ads/loyalty/page.tsx
 app/[locale]/admin/ads/new/page.tsx
+app/[locale]/admin/ads/orders/page.tsx
 app/[locale]/admin/ads/page.tsx
+app/[locale]/admin/ads/wishlist/page.tsx
 app/[locale]/admin/affiliate/page.tsx
 app/[locale]/admin/analytics/behavior/page.tsx
 app/[locale]/admin/analytics/reports/page.tsx
